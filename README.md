@@ -1,5 +1,7 @@
 # Advocacy AI Assistant
 
+**This is not the Advocacy AI Tools repo. It is just an experiment.** Go to https://github.com/burkeholland/advocacy-ai-tools for the app deployed at aka.ms/advocacy-ai-tools.
+
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
