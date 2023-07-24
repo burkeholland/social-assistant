@@ -5,7 +5,7 @@
 <style scoped>
 textarea.chat-box {
   resize: none;
-  min-width: 25%;
+  min-width: 80%;
   border: 1px solid #ddd;
   border-radius: 1rem;
   padding: 1rem;

@@ -13,46 +13,32 @@ import { RouterLink, RouterView } from 'vue-router'
         <span aria-hidden="true"></span>
       </a>
     </div>
-    <div class="columns is-vcentered is-full">
+    <div class="tabs is-boxed">
+      <ul>
+        <li>
+          <RouterLink to="/">
+            <span class="icon is-small"><i class="fas fa-image" aria-hidden="true"></i></span>
+            <span>Source</span>
+          </RouterLink>
+        </li>
+        <li>
+          <RouterLink to="/chat">
+            <span class="icon is-small"><i class="fas fa-music" aria-hidden="true"></i></span>
+            <span>Prompt</span>
+          </RouterLink>
+        </li>
+      </ul>
+    </div>
+    <!-- <div class="columns is-vcentered mt-3">
       <RouterLink to="/">
         <span class="nav-item"> Step 1: Source </span>
       </RouterLink>
       <span class="nav-line"></span>
       <RouterLink to="/chat">
-        <span class="nav-item">Chat </span>
+        <span class="nav-item">Step 2: Prompt </span>
       </RouterLink>
-    </div>
+    </div> -->
   </nav>
 </template>
 
-<style>
-nav {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-}
-
-.nav-item {
-  background-color: #f5f5f5;
-  border: 1px solid #ddd;
-  border-radius: 0.25rem;
-  padding: 0.5rem 3rem;
-  cursor: pointer;
-}
-
-.nav-item:hover {
-}
-
-.router-link-active {
-  background-color: #fff;
-  border-color: #ddd;
-  border-bottom-color: transparent;
-}
-
-.nav-line {
-  /* the element should appear as a horiztontal line */
-  border-top: 1px solid #ddd;
-  display: block;
-  height: 0;
-  width: 100%;
-}
-</style>
+<style scoped></style>

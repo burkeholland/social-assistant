@@ -1,13 +1,14 @@
 <script setup>
 import ChatBox from '../components/ChatBox.vue'
+import ChatMessage from '../components/ChatMessage.vue'
 </script>
 
 <template>
-  <main>
+  <main class="mt-3">
     <div>
-      <div class="message user-message is-flex">User</div>
-      <div class="message system-message is-flex">GPT</div>
-      <div class="message user-message is-flex is-justify-content-center">User</div>
+      <ChatMessage></ChatMessage>
+      <ChatMessage></ChatMessage>
+      <ChatMessage></ChatMessage>
     </div>
   </main>
   <footer>
