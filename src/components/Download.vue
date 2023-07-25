@@ -1,3 +1,11 @@
+<script setup>
+import { useDownloadStore } from '@/stores/download'
+import { storeToRefs } from 'pinia'
+
+const { downloadUrl } = storeToRefs(useDownloadStore())
+const { downloadSourceContent } = useDownloadStore()
+</script>
+
 <template>
   <article class="panel is-success">
     <p class="panel-heading">Download</p>
@@ -12,22 +20,10 @@
           placeholder="Enter a URL to download content"
           v-model="downloadUrl"
         />
-        <button class="button is-primary is-pulled-right" @click="getSourceContent">
+        <button class="button is-primary is-pulled-right" @click="downloadSourceContent">
           Download
         </button>
       </p>
     </div>
   </article>
 </template>
-
-<script setup>
-import { useAppStore } from '@/stores/app'
-import { storeToRefs } from 'pinia'
-
-const { sourceContent, downloadUrl } = storeToRefs(useAppStore())
-const { getSourceContent } = useAppStore()
-
-// downloadContent = (url) => {
-//   'https://www.youtube.com/watch?v=9C_HReR_McQ'
-// }
-</script>

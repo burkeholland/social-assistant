@@ -14,7 +14,7 @@ const downloadService = {
       let reader = new Readability(doc.window.document);
       let article = reader.parse();
 
-      return { status: 200, body: article.textContent };
+      return { status: 200, body: article };
     } catch (error) {
       return { status: 500, body: error.message };
     }

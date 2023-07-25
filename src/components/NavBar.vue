@@ -3,9 +3,15 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <nav>
+  <nav class="mt-5">
     <div class="navbar-brand">
-      <h1 class="title mt-5">Advocacy AI Assistant</h1>
+      <h1 class="title">Advocacy AI Assistant</h1>
+
+      <div class="navbar-menu">
+        <div class="navbar-end">
+          <a href="login.html" class="button">Log Out</a>
+        </div>
+      </div>
 
       <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
         <span aria-hidden="true"></span>

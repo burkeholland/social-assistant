@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box" :class="message.role">
     <article class="media">
       <div class="media-left">
         <figure class="image is-64x64">
@@ -9,10 +9,8 @@
       <div class="media-content">
         <div class="content">
           <p>
-            <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
             <br />
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa
-            fringilla egestas. Nullam condimentum luctus turpis.
+            {{ message.content }}
           </p>
         </div>
         <nav class="level is-mobile">
@@ -38,3 +36,24 @@
     </article>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    message: {
+      type: Object,
+      required: true
+    }
+  }
+}
+</script>
+
+<style scoped>
+.user {
+  background-color: #f5f5f5;
+}
+
+.assistant {
+  background-color: #336699;
+}
+</style>

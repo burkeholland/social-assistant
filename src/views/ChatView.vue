@@ -4,16 +4,14 @@ import ChatMessage from '../components/ChatMessage.vue'
 </script>
 
 <template>
-  <main class="mt-3">
-    <div>
-      <ChatMessage></ChatMessage>
-      <ChatMessage></ChatMessage>
-      <ChatMessage></ChatMessage>
+  <section class="section">
+    <div v-for="message in messages" :key="message.id">
+      <ChatMessage :message="message"></ChatMessage>
     </div>
-  </main>
-  <footer>
-    <ChatBox />
-  </footer>
+    <footer>
+      <ChatBox />
+    </footer>
+  </section>
 </template>
 
 <style>

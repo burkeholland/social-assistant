@@ -1,13 +1,34 @@
-module.exports = async function (context, req) {
-    context.log('JavaScript HTTP trigger function processed a request.');
+const authService = require("../services/authService");
+const downloadService = require("../services/downloadService");
 
-    const name = (req.query.name || (req.body && req.body.name));
-    const responseMessage = name
-        ? "Hello, " + name + ". This HTTP triggered function executed successfully."
-        : "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.";
+module.exports = async function download(context, req) {
+    const { authorized, newContext } = authService.isUserAuthorized(req, context);
+    if (!authorized) {
+        return newContext;
+    }
 
-    context.res = {
-        // status: 200, /* Defaults to 200 */
-        body: responseMessage
-    };
-}
+    try {
+        // parse the id off the body
+        const { downloadUrl } = req.body;
+
+        let result = { status: 200, body: "" };
+
+        // if the url is a youtube url
+        if (downloadUrl.includes("youtube") || downloadUrl.includes("youtu.be")) {
+            result = await downloadService.downloadYouTubeCaptions(downloadUrl);
+        } else {
+            // otherwise we assume its a webpage and try to download the text
+            result = await downloadService.downloadWebPageText(downloadUrl);
+        }
+
+        context.res = {
+            status: result.status,
+            body: { body: result.body },
+        };
+    } catch (error) {
+        context.res = {
+            status: 500,
+            body: { body: error.message },
+        };
+    }
+};

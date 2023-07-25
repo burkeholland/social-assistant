@@ -2,6 +2,7 @@
 import Download from '@/components/Download.vue'
 import Source from '@/components/Source.vue'
 import SourceHistory from '@/components/SourceHistory.vue'
+import Error from '@/components/Error.vue'
 </script>
 
 <template>
@@ -12,16 +13,17 @@ import SourceHistory from '@/components/SourceHistory.vue'
     </p>
     <div class="mt-5">
       <div class="columns">
-        <div id="history" class="column is-two-fifths">
-          <Download />
+        <div id="history" class="column is-one-third">
           <SourceHistory />
         </div>
-        <div class="column is-three-fifths">
+        <div class="column is-two-thirds is-fullheight">
+          <Download />
           <Source id="source" />
         </div>
       </div>
     </div>
   </section>
+  <Error></Error>
 </template>
 
 <style scoped>
@@ -30,7 +32,15 @@ import SourceHistory from '@/components/SourceHistory.vue'
   border-right: 1px solid #ddd;
 }
 
-/* the source element should take up the full height of the page minus the height of the navbar */
+.columns {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  flex-grow: 1;
+}
+
 #source {
   height: 100%;
 }

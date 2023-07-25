@@ -6,6 +6,8 @@
     "start": "func start",
     "test": "echo \"No tests yet...\""
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "gpt-3-encoder": "^1.1.4",
+    "node-fetch": "^3.3.2"
+  }
 }
