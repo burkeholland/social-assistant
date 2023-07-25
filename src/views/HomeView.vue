@@ -1,6 +1,7 @@
 <script setup>
-import SourceHistory from '@/components/SourceHistory.vue'
+import Download from '@/components/Download.vue'
 import Source from '@/components/Source.vue'
+import SourceHistory from '@/components/SourceHistory.vue'
 </script>
 
 <template>
@@ -12,6 +13,7 @@ import Source from '@/components/Source.vue'
     <div class="mt-5">
       <div class="columns">
         <div id="history" class="column is-two-fifths">
+          <Download />
           <SourceHistory />
         </div>
         <div class="column is-three-fifths">

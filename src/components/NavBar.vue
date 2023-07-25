@@ -5,7 +5,7 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
   <nav>
     <div class="navbar-brand">
-      <h1 class="title">Advocacy AI Assistant</h1>
+      <h1 class="title mt-5">Advocacy AI Assistant</h1>
 
       <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
         <span aria-hidden="true"></span>
