@@ -4,41 +4,36 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useDownloadStore = defineStore('download', {
-
   state: () => ({
     downloadUrl: ref(''),
     sourceContent: ref({
       title: '',
       content: 'Paste content here...',
-      textContent: '',
-    }),
+      textContent: ''
+    })
   }),
   actions: {
     async downloadSourceContent() {
+      const app = useAppStore()
+      const chat = useChatStore()
 
-      const app = useAppStore();
-      const chat = useChatStore();
-
-      const response = await fetch("/api/download", {
+      const response = await fetch('/api/download', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ downloadUrl: this.downloadUrl })
-      });
+      })
 
-      const data = await response.json();
+      const data = await response.json()
 
       if (response.status !== 200) {
         console.log('setting error')
-        app.setErrorMessage(data.body);
-        return;
+        app.setErrorMessage(data.body)
+        return
       }
 
-      // Add the H1 title to the content
-      let content = `<h1>${data.sourceContent.title}</h1>${data.sourceContent.content}`
-
-      chat.setSourceMessage(content);
+      chat.setGroundingSource(data.body.content)
     }
   }
-});
+})

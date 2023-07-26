@@ -2,27 +2,35 @@
 import { useChatStore } from '@/stores/chat'
 import { storeToRefs } from 'pinia'
 
-const { userMessage, getCompletion } = storeToRefs(useChatStore())
+const { userMessage } = storeToRefs(useChatStore())
+const { getCompletion } = useChatStore()
 </script>
 
 <template>
-  <textarea
-    class="chat-box"
-    placeholder="Type your message here..."
-    v-model="userMessage"
-    @keypress:enter="getCompletion"
-  ></textarea>
+  <div>
+    <textarea
+      class="chat-box"
+      placeholder="Type your message here..."
+      v-model="userMessage"
+      @keyup.enter="getCompletion"
+    ></textarea>
+  </div>
 </template>
 
 <style scoped>
-textarea.chat-box {
+.chat-box {
   resize: none;
-  max-width: 1248px;
-  width: 1248px;
+  min-width: 100%;
   border: 1px solid #ddd;
   border-radius: 1rem;
   padding: 1rem;
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
-  height: 100px;
+  display: block;
+  height: 150px;
+  font-size: 1rem;
+}
+
+select {
+  display: block;
 }
 </style>

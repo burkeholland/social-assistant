@@ -1,9 +1,18 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { ref } from 'vue'
+
+const sourceIsActive = ref(true)
+const chatIsActive = ref(false)
+
+function setActive(tab) {
+  sourceIsActive.value = tab === 'source'
+  chatIsActive.value = tab === 'chat'
+}
 </script>
 
 <template>
-  <nav class="mt-5">
+  <nav class="pt-5 mb-5">
     <div class="navbar-brand">
       <h1 class="title">Advocacy AI Assistant</h1>
 
@@ -21,29 +30,23 @@ import { RouterLink, RouterView } from 'vue-router'
     </div>
     <div class="tabs is-boxed">
       <ul>
-        <li>
-          <RouterLink to="/">
-            <span class="icon is-small"><i class="fas fa-image" aria-hidden="true"></i></span>
-            <span>Source</span>
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/chat">
-            <span class="icon is-small"><i class="fas fa-music" aria-hidden="true"></i></span>
-            <span>Prompt</span>
-          </RouterLink>
-        </li>
+        <RouterLink
+          active-class="is-active"
+          to="/"
+          v-slot="{ href, route, navigate, isActive, isExactActive }"
+          custom
+        >
+          <li :class="[isActive && 'is-active']">
+            <a href="href" @click="navigate">Source</a>
+          </li>
+        </RouterLink>
+        <RouterLink to="/chat" v-slot="{ href, route, navigate, isActive, isExactActive }" custom>
+          <li :class="[isActive && 'is-active']">
+            <a @click="navigate" href="/chat">Chat</a>
+          </li>
+        </RouterLink>
       </ul>
     </div>
-    <!-- <div class="columns is-vcentered mt-3">
-      <RouterLink to="/">
-        <span class="nav-item"> Step 1: Source </span>
-      </RouterLink>
-      <span class="nav-line"></span>
-      <RouterLink to="/chat">
-        <span class="nav-item">Step 2: Prompt </span>
-      </RouterLink>
-    </div> -->
   </nav>
 </template>
 

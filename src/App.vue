@@ -4,12 +4,10 @@ import NavBar from './components/NavBar.vue'
 </script>
 
 <template>
-  <div class="container flex is-flex-direction-column is-fullheight">
+  <main class="container is-flex is-flex-direction-column">
     <NavBar />
-    <main class="main flex is-flex-direction-column is-justify-content-center">
-      <RouterView />
-    </main>
-  </div>
+    <RouterView />
+  </main>
 </template>
 
 <style scoped>

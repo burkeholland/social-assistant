@@ -1,62 +1,58 @@
-
-const { encode } = require("gpt-3-encoder");
-const authService = require("../services/authService");
+const authService = require('../services/authService')
+const { marked } = require('marked')
 
 module.exports = async function (context, req) {
-    const { authorized, newContext } = authService.isUserAuthorized(req, context);
-    if (!authorized) {
-        return newContext;
+  const { authorized, newContext } = authService.isUserAuthorized(req, context)
+  if (!authorized) {
+    return newContext
+  }
+
+  // read the source and prompt parameters from the body of the request. The body is www-form-urlencoded.
+  const { groundingSource, messages } = req.body
+
+  // strip out all HTML tags from the groudingSource to save space
+  const groundingSourceText = groundingSource.replace(/(<([^>]+)>)/gi, '')
+
+  // set the system prompt and ground the model
+  const systemPrompt = {
+    role: 'system',
+    content: `You are a developer advocate who creates who can write creative content when given a source. You will ground your responses in the following source content: ${groundingSourceText}. You will format all your responses as HTML making them clean and easy to read using headings, bulleted lists and line breaks when appropriate. If the source content is not provided, tell the user that they need to provide a source before you can answer any questions about it.`
+  }
+
+  // add the systemPrompt to the start of the messages array
+  messages.unshift(systemPrompt)
+
+  const response = await fetch(
+    'https://chatterbox.openai.azure.com/openai/deployments/gpt-35-turbo-16k/chat/completions?api-version=2023-05-15',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'api-key': process.env.AZURE_OPENAI_KEY
+      },
+      body: JSON.stringify({ messages: messages })
     }
+  )
 
-    // read the source and prompt parameters from the body of the request. The body is www-form-urlencoded.
-    const { userPrompt, systemPrompt } = req.body;
+  const json = await response.json()
 
-    // encode the prompts
-    const userPromptEncoded = encode(userPrompt);
-    const systemPromptEncoded = encode(systemPrompt);
-
-    const availableTokenLength =
-        16000 - (userPromptEncoded.length + systemPromptEncoded.length);
-
-    // call the OpenAI API to generate a summary
-    let openAIReq = {
-        messages: [
-            {
-                role: "system",
-                content: `${systemPrompt} You have ${availableTokenLength} available tokens for your response.`,
-            },
-            { role: "user", content: userPrompt },
-        ],
-    };
-
-    const response = await fetch(
-        "https://chatterbox.openai.azure.com/openai/deployments/gpt-35-turbo-16k/chat/completions?api-version=2023-05-15",
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "api-key": process.env.AZURE_OPENAI_KEY,
-            },
-            body: JSON.stringify(openAIReq),
-        }
-    );
-
-    const json = await response.json();
-
-    if (response.status !== 200) {
-        context.res = {
-            status: response.status,
-            body: { body: json.error.message },
-        };
-        return;
-    }
-
+  if (response.status !== 200) {
     context.res = {
-        status: response.status,
-        body: {
-            content: json.choices[0].message.content,
-            usedTokens: json.usage.total_tokens,
-            availableTokens: 16384,
-        },
-    };
-};
+      status: response.status,
+      body: { body: json.error.message }
+    }
+    return
+  }
+
+  // parse the response with marked
+  const parsedResponse = marked(json.choices[0].message.content)
+
+  context.res = {
+    status: response.status,
+    body: {
+      content: parsedResponse,
+      usedTokens: json.usage.total_tokens,
+      availableTokens: 16384
+    }
+  }
+}

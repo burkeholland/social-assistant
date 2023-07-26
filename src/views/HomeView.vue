@@ -6,11 +6,11 @@ import Error from '@/components/Error.vue'
 </script>
 
 <template>
-  <section class="is-fullheight">
-    <p class="mt-3">
+  <div class="is-fullheight">
+    <section class="section">
       Step 1: Add a source to ground the model. You can copy paste any text into the box, or
       automatically download blog posts, docs, articles and YouTube transcripts.
-    </p>
+    </section>
     <div class="mt-5">
       <div class="columns">
         <div id="history" class="column is-one-third">
@@ -22,7 +22,7 @@ import Error from '@/components/Error.vue'
         </div>
       </div>
     </div>
-  </section>
+  </div>
   <Error></Error>
 </template>
 

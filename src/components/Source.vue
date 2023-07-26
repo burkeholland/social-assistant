@@ -2,7 +2,7 @@
 import { useChatStore } from '@/stores/chat'
 import { storeToRefs } from 'pinia'
 
-const { messages } = storeToRefs(useChatStore())
+const { groundingSource } = storeToRefs(useChatStore())
 </script>
 
 <template>
@@ -11,9 +11,10 @@ const { messages } = storeToRefs(useChatStore())
     <div class="panel-block section">
       <content
         class="content"
+        contenteditable
         id="source"
         placeholder="Paste source content here..."
-        v-html="messages[0].content"
+        v-html="groundingSource"
       ></content>
     </div>
   </article>
