@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { useAppStore } from '@/stores/app'
+import { uid } from 'uid'
 
 export const useChatStore = defineStore('chat', {
   state: () => ({
@@ -13,7 +14,7 @@ export const useChatStore = defineStore('chat', {
     async getCompletion() {
       const { groundingSource, userMessage, messages } = this
 
-      this.messages.push({ role: 'user', content: userMessage })
+      this.messages.push({ id: uid(), role: 'user', content: userMessage })
       this.userMessage = ''
 
       const result = await fetch('/api/completion', {
@@ -36,7 +37,7 @@ export const useChatStore = defineStore('chat', {
       }
 
       this.usedTokens = data.usedTokens
-      this.messages.push({ role: 'assistant', content: data.content })
+      this.messages.push({ id: uid(), role: 'assistant', content: data.content })
     },
     deleteMessage(index) {
       this.messages.splice(index, 1)

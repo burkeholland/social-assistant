@@ -12,14 +12,12 @@ const { getCompletion } = useChatStore()
 const chatThread = ref(null)
 
 watchEffect(() => {
-  const id = messages.value.length - 1
-
-  console.log(id)
-
-  const el = document.getElementById(`"${id}"`)
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth' })
-  }
+  // const id = messages.value.length - 1
+  // console.log(id)
+  // const el = document.getElementById(`"${id}"`)
+  // if (el) {
+  //   el.scrollIntoView({ behavior: 'smooth' })
+  // }
 })
 </script>
 
@@ -31,23 +29,20 @@ watchEffect(() => {
       </div>
       <div class="column is-three-quarters is-flex is-flex-direction-column">
         <div ref="chatThread" class="chat-thread is-flex-grow-1">
-          <div
-            v-for="(message, index) in messages"
-            :key="id"
-            :ref="{el => { if (el) {} } }"
-            class="block"
-          >
+          <div v-for="(message, index) in messages" :key="message.id" class="block">
             <ChatMessage
               v-if="message.role === 'assistant'"
               class="box has-background-light message system-message"
               :message="message"
               :index="index"
+              :id="message.id"
             ></ChatMessage>
             <ChatMessage
               v-else
               class="box has-background-white message user-message"
               :message="message"
               :index="index"
+              :id="message.id"
             ></ChatMessage>
           </div>
         </div>
