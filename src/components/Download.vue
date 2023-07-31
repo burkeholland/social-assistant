@@ -1,29 +1,83 @@
 <script setup>
-import { useDownloadStore } from '@/stores/download'
+import { ref } from 'vue'
+import { useAppStore } from '@/stores/app'
 import { storeToRefs } from 'pinia'
+import downloadService from '@/services/downloadService'
 
-const { downloadUrl } = storeToRefs(useDownloadStore())
-const { downloadSourceContent } = useDownloadStore()
+const store = useAppStore()
+const { groundingSource } = storeToRefs(store)
+
+const downloadUrl = ref('')
+const isLoading = ref(false)
+const isInvalid = ref(false)
+const groundingSourceIsSet = ref(false)
+
+async function downloadSource() {
+  try {
+    new URL(downloadUrl.value)
+  } catch {
+    isInvalid.value = true
+    return
+  }
+
+  isInvalid.value = false
+  isLoading.value = true
+
+  const data = await downloadService.downloadSourceContent(downloadUrl.value)
+  store.groundingSource = data.body.content
+
+  isLoading.value = false
+  groundingSourceIsSet.value = true
+}
+
+function showEditor() {
+  store.showEditor = true
+}
+
+function clearGroundingSource() {
+  store.groundingSource = ''
+  groundingSourceIsSet.value = false
+}
 </script>
 
 <template>
-  <article class="panel is-success">
-    <p class="panel-heading">Download</p>
-    <div class="panel-block">
-      <p>Enter a URL and we will attempt to download the content/captions for you.</p>
-    </div>
-    <div class="panel-block">
-      <p class="control">
+  <div>
+    <p>Enter the URL of the content you want to use as the source for this chat</p>
+    <div class="field has-addons">
+      <div class="control is-expanded">
         <input
-          class="input is-success block"
+          class="input is-success"
           type="text"
-          placeholder="Enter a URL to download content"
+          placeholder="YouTube video, Release notes, Documentation, etc."
           v-model="downloadUrl"
         />
-        <button class="button is-primary is-pulled-right" @click="downloadSourceContent">
-          Download
+      </div>
+      <div class="control" v-if="!groundingSourceIsSet">
+        <button
+          class="button is-primary is-pulled-right"
+          :class="{ 'is-loading': isLoading }"
+          :disabled="!downloadUrl"
+          @click="downloadSource"
+        >
+          Set Source
         </button>
+      </div>
+      <div class="control" v-if="groundingSourceIsSet">
+        <button class="button is-primary" @click="showEditor">Edit</button>
+      </div>
+      <div class="control" v-if="groundingSourceIsSet">
+        <button class="button is-danger" @click="clearGroundingSource">Clear</button>
+      </div>
+    </div>
+    <div v-if="isInvalid">
+      <p class="is-size-7 has-text-danger">
+        Please enter a valid URL with the protocal (http/https)
       </p>
     </div>
-  </article>
+    <div v-if="groundingSourceIsSet">
+      <span
+        >Chat now grounded in <a :href="downloadUrl">{{ downloadUrl }}</a></span
+      >
+    </div>
+  </div>
 </template>

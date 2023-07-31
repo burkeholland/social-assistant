@@ -1,6 +1,6 @@
 var { Readability } = require('@mozilla/readability')
 var { JSDOM } = require('jsdom')
-const { getSubtitles } = require('youtube-caption-extractor')
+const { getSubtitles, getVideoDetails } = require('youtube-caption-extractor')
 
 const downloadService = {
   downloadWebPageText: async (url) => {
@@ -24,7 +24,7 @@ const downloadService = {
 
   downloadYouTubeCaptions: async (url) => {
     try {
-      const videoId = url.split('v=')[1] || url.split('/').pop()
+      const videoId = extractVideoId(url)
 
       const videoCaptions = await getSubtitles({
         videoID: videoId,
@@ -38,16 +38,23 @@ const downloadService = {
         caption.start = Math.round(caption.start)
 
         const formattedTime = formatTime(caption.start)
-
-        const formattedStart = formatTime(caption.start)
         formattedCaptions += `Timestamp: ${formattedTime}, Caption: ${caption.text}\n\n`
       })
 
-      return { status: 200, body: { type: 'captions', content: formattedCaptions } }
+      return {
+        status: 200,
+        body: { type: 'captions', content: formattedCaptions }
+      }
     } catch (error) {
       return { status: 500, body: error.message }
     }
   }
+}
+
+function extractVideoId(url) {
+  const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/.*[&?#]v=)([\w-]{11})/
+  const match = url.match(regex)
+  return match ? match[1] : null
 }
 
 function formatTime(seconds) {

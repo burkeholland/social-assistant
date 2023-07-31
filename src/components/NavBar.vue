@@ -13,22 +13,15 @@ function setActive(tab) {
 
 <template>
   <nav class="pt-5 mb-5">
-    <div class="navbar-brand">
-      <h1 class="title">Advocacy AI Assistant</h1>
-
-      <div class="navbar-menu">
-        <div class="navbar-end">
-          <a href="login.html" class="button">Log Out</a>
-        </div>
+    <div class="columns is-vcentered">
+      <div class="column">
+        <h1 class="title">Social Assistant</h1>
       </div>
-
-      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
+      <div class="column is-narrow">
+        <a href="login.html" class="button">Log Out</a>
+      </div>
     </div>
-    <div class="tabs is-boxed">
+    <!-- <div class="tabs is-boxed">
       <ul>
         <RouterLink
           active-class="is-active"
@@ -46,7 +39,7 @@ function setActive(tab) {
           </li>
         </RouterLink>
       </ul>
-    </div>
+    </div> -->
   </nav>
 </template>
 

@@ -1,47 +1,23 @@
 <script setup>
+import ChatThread from '@/components/ChatThread.vue'
+import PromptLibrary from '@/components/PromptLibrary.vue'
 import Download from '@/components/Download.vue'
-import Source from '@/components/Source.vue'
-import SourceHistory from '@/components/SourceHistory.vue'
-import Error from '@/components/Error.vue'
+import EditSource from '@/components/EditSource.vue'
 </script>
 
 <template>
-  <div class="is-fullheight">
-    <section class="section">
-      Step 1: Add a source to ground the model. You can copy paste any text into the box, or
-      automatically download blog posts, docs, articles and YouTube transcripts.
-    </section>
-    <div class="mt-5">
-      <div class="columns">
-        <div id="history" class="column is-one-third">
-          <SourceHistory />
-        </div>
-        <div class="column is-two-thirds is-fullheight">
-          <Download />
-          <Source id="source" />
-        </div>
+  <Download></Download>
+
+  <div class="mt-5 is-flex-grow-1">
+    <div class="columns is-full-height">
+      <div class="column is-two-quarter">
+        <PromptLibrary></PromptLibrary>
+      </div>
+      <div class="column is-three-quarters is-flex is-flex-direction-column">
+        <ChatThread></ChatThread>
       </div>
     </div>
   </div>
-  <Error></Error>
+
+  <EditSource></EditSource>
 </template>
-
-<style scoped>
-/* the history column should have a thin grey border on the right-hand side */
-#history {
-  border-right: 1px solid #ddd;
-}
-
-.columns {
-  display: flex;
-  flex-direction: row;
-}
-
-.column {
-  flex-grow: 1;
-}
-
-#source {
-  height: 100%;
-}
-</style>
