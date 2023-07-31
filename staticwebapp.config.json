@@ -5,6 +5,10 @@
       "allowedRoles": ["authenticated"]
     }
   ],
+  "mimeTypes": {
+    ".json": "text/json",
+    ".css": "text/css"
+  },
   "navigationFallback": {
     "rewrite": "/index.html"
   },
