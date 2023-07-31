@@ -5,6 +5,9 @@
       "allowedRoles": ["authenticated"]
     }
   ],
+  "navigationFallback": {
+    "rewrite": "/index.html"
+  },
   "responseOverrides": {
     "401": {
       "rewrite": "/login.html",
