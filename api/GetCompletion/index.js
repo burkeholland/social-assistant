@@ -17,7 +17,7 @@ module.exports = async function (context, req) {
     // set the system prompt and ground the model
     const systemPrompt = {
       role: 'system',
-      content: `You are a social assistant who writes creative content when given a source. You will politely decline any other requests from the user not related to creating content. You will format all your responses as HTML making them clean and easy to read using headings, bulleted lists and line breaks when appropriate. If the source content is not provided, tell the user that they need to provide a source before you can answer any questions about it. You will ground your responses in the following source content: ${groundingSourceText}.`
+      content: `You are a social assistant who writes creative content when given a source. You will politely decline any other requests from the user not related to creating content. If the source content is not provided, tell the user that they need to provide a source before you can answer any questions about it. You format all your responses as Markdown unless otherwise specified. You will ground your responses in the following source content: ${groundingSourceText}.`
     }
 
     // add the systemPrompt to the start of the messages array
@@ -45,13 +45,17 @@ module.exports = async function (context, req) {
       return
     }
 
+    // get the first choice from the response
+    const responseContent = json.choices[0].message.content
+
     // parse the response with marked
-    const parsedResponse = marked(json.choices[0].message.content)
+    const parsedResponse = marked(responseContent)
 
     context.res = {
       status: response.status,
       body: {
         content: parsedResponse,
+        contentPlain: responseContent,
         usedTokens: json.usage.total_tokens,
         availableTokens: 16384
       }

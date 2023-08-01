@@ -40,7 +40,12 @@ async function getCompletion() {
       // show the app error message
       store.errorMessage = completion.content
     } else {
-      messages.value.push({ id: uid(), role: 'assistant', content: completion.content })
+      messages.value.push({
+        id: uid(),
+        role: 'assistant',
+        content: completion.content,
+        contentPlain: completion.contentPlain
+      })
     }
 
     isWaitingForCompletion.value = false
@@ -74,9 +79,7 @@ async function getCompletion() {
         class="box message"
         :class="message.role"
         :message="message"
-        :id="message.id"
         :deleteMessage="deleteMessage"
-        :role="message.role"
       ></ChatMessage>
     </div>
     <div class="box message has-background-white system-message" v-if="isWaitingForCompletion">

@@ -1,7 +1,12 @@
 export default {
   async getCompletion(messages, groundingSource) {
-    // create a new array that only contains the role and content properties from the messages array
-    const messagesWithoutId = messages.map(({ id, ...keepProperties }) => keepProperties)
+    // create an array that contains only the role and content properties of each message
+    const completionMessages = messages.map((message) => {
+      return {
+        role: message.role,
+        content: message.content
+      }
+    })
 
     const result = await fetch('/api/completion', {
       method: 'POST',
@@ -10,7 +15,7 @@ export default {
       },
       body: JSON.stringify({
         groundingSource: groundingSource,
-        messages: messagesWithoutId
+        messages: completionMessages
       })
     })
 
@@ -24,6 +29,11 @@ export default {
     const data = await result.json()
 
     data.usedTokens
-    return { status: 200, usedTokens: data.usedTokens, content: data.content }
+    return {
+      status: 200,
+      usedTokens: data.usedTokens,
+      content: data.content,
+      contentPlain: data.contentPlain
+    }
   }
 }

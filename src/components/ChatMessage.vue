@@ -17,16 +17,8 @@ defineProps({
     type: Object,
     required: true
   },
-  id: {
-    type: String,
-    required: true
-  },
   deleteMessage: {
     type: Function,
-    required: true
-  },
-  role: {
-    type: String,
     required: true
   }
 })
@@ -35,20 +27,24 @@ defineProps({
 <template>
   <div>
     <div class="columns">
-      <div class="column is-narrow" v-if="role === 'assistant'">
+      <div class="column is-narrow" v-if="message.role === 'assistant'">
         <span class="icon">
           <i class="fas fa-robot is-size-4"></i>
         </span>
       </div>
       <div class="column">
-        <div class="content block" v-html="message.content"></div>
+        <div class="content block" v-html="message.content" ref="message"></div>
       </div>
       <div class="column is-narrow">
-        <button class="delete" @click="deleteMessage(id)" v-if="role === 'user'"></button>
+        <button
+          class="delete"
+          @click="deleteMessage(message.id)"
+          v-if="message.role === 'user'"
+        ></button>
         <button
           class="button"
-          @click="copyMessage(message.content)"
-          v-if="role === 'assistant'"
+          @click="copyMessage(message.contentPlain)"
+          v-if="message.role === 'assistant'"
           title="Copy to clipbard"
         >
           <span v-if="showCopyNotification" class="mr-3">Copied to clipboard!</span>
