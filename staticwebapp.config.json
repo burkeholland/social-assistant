@@ -1,22 +1,13 @@
 {
   "routes": [
     {
-      "route": "/*",
+      "route": "/api/*",
       "allowedRoles": ["authenticated"]
     }
   ],
-  "mimeTypes": {
-    ".json": "text/json",
-    ".css": "text/css"
-  },
   "navigationFallback": {
-    "rewrite": "/index.html"
-  },
-  "responseOverrides": {
-    "401": {
-      "rewrite": "/login.html",
-      "statusCode": 200
-    }
+    "rewrite": "index.html",
+    "exclude": ["/images/*.{png,jpg,gif}", "/asssets/*"]
   },
   "platform": {
     "apiRuntime": "node:18"
