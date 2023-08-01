@@ -68,10 +68,10 @@ function clearGroundingSource() {
         </button>
       </div>
       <div class="control" v-if="groundingSourceIsSet">
-        <button class="button is-primary" @click="showEditor">Edit</button>
+        <button class="button is-primary is-small" @click="showEditor">Edit</button>
       </div>
       <div class="control" v-if="groundingSourceIsSet">
-        <button class="button is-danger" @click="clearGroundingSource">Clear</button>
+        <button class="button is-danger is-small" @click="clearGroundingSource">Clear</button>
       </div>
     </div>
     <div v-if="isInvalid">
