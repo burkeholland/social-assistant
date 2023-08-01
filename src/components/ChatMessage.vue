@@ -34,8 +34,15 @@ defineProps({
 
 <template>
   <div>
-    <div class="columns is-vcentered">
-      <div class="column"></div>
+    <div class="columns">
+      <div class="column is-narrow" v-if="role === 'assistant'">
+        <span class="icon">
+          <i class="fas fa-robot is-size-4"></i>
+        </span>
+      </div>
+      <div class="column">
+        <div class="content block" v-html="message.content"></div>
+      </div>
       <div class="column is-narrow">
         <button class="delete" @click="deleteMessage(id)" v-if="role === 'user'"></button>
         <button
@@ -51,7 +58,6 @@ defineProps({
         </button>
       </div>
     </div>
-    <div class="content block" v-html="message.content"></div>
   </div>
 </template>
 
