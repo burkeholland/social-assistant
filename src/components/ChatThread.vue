@@ -31,18 +31,26 @@ async function getCompletion() {
 
   store.userMessage = ''
 
-  let completion = await completionService.getCompletion(messages.value, groundingSource.value)
+  try {
+    let completion = await completionService.getCompletion(messages.value, groundingSource.value)
 
-  if (completion.status !== 200) {
+    if (completion.status !== 200) {
+      // remove the last message from the messages array because it was not a valid message
+      messages.value.pop()
+      // show the app error message
+      store.errorMessage = completion.content
+    } else {
+      messages.value.push({ id: uid(), role: 'assistant', content: completion.content })
+    }
+
+    isWaitingForCompletion.value = false
+  } catch (error) {
     // remove the last message from the messages array because it was not a valid message
     messages.value.pop()
     // show the app error message
-    store.appError = completion.content
-  } else {
-    messages.value.push({ id: uid(), role: 'assistant', content: completion.content })
+    store.errorMessage = error.message
+    isWaitingForCompletion.value = false
   }
-
-  isWaitingForCompletion.value = false
 }
 </script>
 
@@ -56,8 +64,8 @@ async function getCompletion() {
           </span>
         </div>
         <div class="column">
-          Hello! I am your social assistant. I can help you with all things social. Enter a URL
-          above and click "Set Source" so I know what to create content about.
+          Hello! I am your social assistant. I can help you with all things social. Enter a URL on
+          the left and click "Set Source" so I know what to create content about.
         </div>
       </div>
     </div>
@@ -109,7 +117,7 @@ async function getCompletion() {
 .chat-thread {
   overflow: scroll;
   margin-bottom: 20px;
-  max-height: calc(100vh - 304px);
+  max-height: calc(100vh - 100px);
   padding-bottom: 20px;
 }
 

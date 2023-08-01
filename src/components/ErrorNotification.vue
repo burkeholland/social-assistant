@@ -2,7 +2,8 @@
 import { useAppStore } from '@/stores/app'
 import { storeToRefs } from 'pinia'
 
-const { errorMessage } = storeToRefs(useAppStore())
+const store = useAppStore()
+const { errorMessage } = storeToRefs(store)
 </script>
 
 <template>

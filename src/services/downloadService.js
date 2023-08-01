@@ -11,9 +11,7 @@ export default {
     const data = await response.json()
 
     if (response.status !== 200) {
-      console.log('setting error')
-      app.setErrorMessage(data.body)
-      return
+      throw new Error(`${response.status}: ${data.body}`)
     }
 
     return data

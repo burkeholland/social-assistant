@@ -11,12 +11,6 @@ export const useAppStore = defineStore('app', {
   actions: {
     setErrorMessage(message) {
       this.errorMessage = message
-    },
-    setGroundingSource(content) {
-      this.groundingSource = content
-    },
-    setUserMessage(message) {
-      this.userMessage = message
     }
   }
 })

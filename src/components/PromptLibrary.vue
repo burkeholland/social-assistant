@@ -14,7 +14,11 @@ onMounted(() => {
 })
 
 async function getPrompts() {
-  prompts.value = await promptService.getPrompts()
+  try {
+    prompts.value = await promptService.getPrompts()
+  } catch (error) {
+    store.errorMessage = error.message
+  }
 }
 
 function setUserMessage(message) {

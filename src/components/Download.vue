@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia'
 import downloadService from '@/services/downloadService'
 
 const store = useAppStore()
-const { groundingSource } = storeToRefs(store)
+const { groundingSource, errorMessage } = storeToRefs(store)
 
 const downloadUrl = ref('')
 const isLoading = ref(false)
@@ -20,14 +20,19 @@ async function downloadSource() {
     return
   }
 
-  isInvalid.value = false
-  isLoading.value = true
+  try {
+    isInvalid.value = false
+    isLoading.value = true
 
-  const data = await downloadService.downloadSourceContent(downloadUrl.value)
-  store.groundingSource = data.body.content
+    const data = await downloadService.downloadSourceContent(downloadUrl.value)
+    store.groundingSource = data.body.content
 
-  isLoading.value = false
-  groundingSourceIsSet.value = true
+    isLoading.value = false
+    groundingSourceIsSet.value = true
+  } catch (error) {
+    store.errorMessage = error.message
+    isLoading.value = false
+  }
 }
 
 function showEditor() {
