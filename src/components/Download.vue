@@ -47,11 +47,11 @@ function clearGroundingSource() {
 
 <template>
   <div>
-    <p>Enter the URL of the content you want to use as the source for this chat</p>
-    <div class="field has-addons">
+    <p>Enter the URL for your source content</p>
+    <div class="field has-addons mt-2">
       <div class="control is-expanded">
         <input
-          class="input is-success"
+          class="input is-success is-small"
           type="text"
           placeholder="YouTube video, Release notes, Documentation, etc."
           v-model="downloadUrl"
@@ -59,7 +59,7 @@ function clearGroundingSource() {
       </div>
       <div class="control" v-if="!groundingSourceIsSet">
         <button
-          class="button is-primary is-pulled-right"
+          class="button is-primary is-pulled-right is-small"
           :class="{ 'is-loading': isLoading }"
           :disabled="!downloadUrl"
           @click="downloadSource"
