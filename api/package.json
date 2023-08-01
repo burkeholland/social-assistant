@@ -12,6 +12,7 @@
     "marked": "^5.1.2",
     "node-fetch": "^3.3.2",
     "youtube-caption-extractor": "^1.4.3",
-    "jsdom": "^22.1.0"
+    "jsdom": "^22.1.0",
+    "@mozilla/readability": "^0.4.4"
   }
 }
