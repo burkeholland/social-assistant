@@ -1,7 +1,7 @@
 <script setup>
 import ChatThread from '@/components/ChatThread.vue'
 import PromptLibrary from '@/components/PromptLibrary.vue'
-import Download from '@/components/Download.vue'
+import DownloadSource from '@/components/DownloadSource.vue'
 import EditSource from '@/components/EditSource.vue'
 import ErrorNotification from '@/components/ErrorNotification.vue'
 </script>
@@ -20,7 +20,7 @@ import ErrorNotification from '@/components/ErrorNotification.vue'
             </div>
           </div>
         </nav>
-        <Download class="block"></Download>
+        <DownloadSource class="block"></DownloadSource>
         <PromptLibrary class="block"></PromptLibrary>
       </div>
       <div class="column is-two-thirds is-flex is-flex-direction-column">

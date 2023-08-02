@@ -4,7 +4,10 @@ import { uid } from 'uid'
 import { useAppStore } from '@/stores/app'
 import { storeToRefs } from 'pinia'
 import completionService from '@/services/completionService'
+
 import ChatMessage from '@/components/ChatMessage.vue'
+import ChatBox from '@/components/ChatBox.vue'
+import ChatLoading from '@/components/ChatLoading.vue'
 
 const store = useAppStore()
 const { groundingSource, userMessage } = storeToRefs(store)
@@ -84,63 +87,28 @@ onUpdated(() => {
       </div>
     </div>
     <div v-for="message in messages" :key="message.id" class="block" :id="message.id">
-      <ChatMessage class="box message" :class="message.role" :message="message" :deleteMessage="deleteMessage">
+      <ChatMessage
+        class="box message"
+        :class="message.role"
+        :message="message"
+        :deleteMessage="deleteMessage"
+      >
       </ChatMessage>
     </div>
-    <div class="box message has-background-white system-message" v-if="isWaitingForCompletion">
-      <div class="columns is-vcentered">
-        <div class="column is-narrow">
-          <span class="icon">
-            <i class="fas fa-robot is-size-4" bounce></i>
-          </span>
-        </div>
-        <div class="column">Thinking...</div>
-      </div>
-    </div>
+    <ChatLoading
+      class="box message has-background-white system-message"
+      v-if="isWaitingForCompletion"
+    ></ChatLoading>
   </div>
-  <div class="chat">
-    <div class="columns is-vcentered">
-      <div class="column">
-        <textarea placeholder="Type your message here..." @keyup.enter="getCompletion" v-model="userMessage">
-        </textarea>
-      </div>
-      <div class="column is-narrow mr-5">
-        <button class="button is-primary is-pulled-right" :disabled="!userMessage" @click="getCompletion">
-          Send
-        </button>
-      </div>
-    </div>
-  </div>
+  <ChatBox :getCompletion="getCompletion"></ChatBox>
 </template>
 
-<style>
+<style scoped lang="scss">
 .chat-thread {
   overflow: scroll;
   margin-bottom: 20px;
   max-height: calc(100vh - 175px);
   padding-bottom: 20px;
-}
-
-.chat {
-  border: 1px solid #ddd;
-  border-radius: 1rem;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
-  padding-bottom: 0.5rem;
-  padding-left: 1rem;
-  padding-top: 0.5rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-}
-
-.chat textarea {
-  resize: none;
-  min-width: 100%;
-  border: none;
-  height: 96px;
-  font-size: 1rem;
-  line-height: 1.5rem;
-  outline: none;
-  padding-right: 1rem;
 }
 
 .message {
