@@ -5,6 +5,10 @@ import { storeToRefs } from 'pinia'
 const store = useAppStore()
 const { userMessage } = storeToRefs(store)
 
+function clearChatBox() {
+  store.userMessage = ''
+}
+
 defineProps({
   getCompletion: {
     type: Function,
@@ -26,11 +30,14 @@ defineProps({
       </div>
       <div class="column is-narrow mr-5">
         <button
-          class="button is-primary is-pulled-right"
+          class="button is-primary is-block mb-2"
           :disabled="!userMessage"
           @click="getCompletion"
         >
           Send
+        </button>
+        <button class="button is-danger" :disabled="!userMessage" @click="clearChatBox">
+          Clear
         </button>
       </div>
     </div>

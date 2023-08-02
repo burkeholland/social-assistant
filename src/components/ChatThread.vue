@@ -65,6 +65,10 @@ async function getCompletion() {
   }
 }
 
+function clearChat() {
+  messages.value = []
+}
+
 onUpdated(() => {
   // scroll to the bottom of the chat thread
   chatThread.value.scrollTop = chatThread.value.scrollHeight
@@ -72,6 +76,13 @@ onUpdated(() => {
 </script>
 
 <template>
+  <button
+    class="button is-small is-danger is-align-self-flex-end mb-4 mr-4"
+    v-if="messages.length > 0"
+    @click="clearChat"
+  >
+    Clear Chat
+  </button>
   <div ref="chatThread" class="chat-thread is-flex-grow-1">
     <div class="box message has-background-white system-message">
       <div class="columns is-vcentered">
@@ -107,14 +118,14 @@ onUpdated(() => {
 .chat-thread {
   overflow: scroll;
   margin-bottom: 20px;
-  max-height: calc(100vh - 175px);
+  max-height: calc(100vh - 200px);
   padding-bottom: 20px;
 }
 
 .message {
   margin-left: 1rem;
   margin-right: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .user {
