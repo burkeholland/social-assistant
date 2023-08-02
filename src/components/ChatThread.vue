@@ -114,6 +114,7 @@ onUpdated(() => {
 .message {
   margin-left: 1rem;
   margin-right: 1rem;
+  margin-bottom: 2rem;
 }
 
 .user {
