@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onUpdated } from 'vue'
 import { uid } from 'uid'
 import { useAppStore } from '@/stores/app'
 import { storeToRefs } from 'pinia'
@@ -11,6 +11,7 @@ const { groundingSource, userMessage } = storeToRefs(store)
 
 const isWaitingForCompletion = ref(false)
 const messages = ref([])
+const chatThread = ref(null)
 
 function deleteMessage(id) {
   // delete the message with the id passed as well as the one right after it in the messages array
@@ -29,6 +30,7 @@ async function getCompletion() {
 
   messages.value.push({ id: uid(), role: 'user', content: userMessage.value })
 
+  const savedUserMessage = userMessage.value
   store.userMessage = ''
 
   try {
@@ -55,8 +57,15 @@ async function getCompletion() {
     // show the app error message
     store.errorMessage = error.message
     isWaitingForCompletion.value = false
+    // restore the last user message
+    store.userMessage = savedUserMessage
   }
 }
+
+onUpdated(() => {
+  // scroll to the bottom of the chat thread
+  chatThread.value.scrollTop = chatThread.value.scrollHeight
+})
 </script>
 
 <template>
@@ -75,12 +84,8 @@ async function getCompletion() {
       </div>
     </div>
     <div v-for="message in messages" :key="message.id" class="block" :id="message.id">
-      <ChatMessage
-        class="box message"
-        :class="message.role"
-        :message="message"
-        :deleteMessage="deleteMessage"
-      ></ChatMessage>
+      <ChatMessage class="box message" :class="message.role" :message="message" :deleteMessage="deleteMessage">
+      </ChatMessage>
     </div>
     <div class="box message has-background-white system-message" v-if="isWaitingForCompletion">
       <div class="columns is-vcentered">
@@ -94,21 +99,13 @@ async function getCompletion() {
     </div>
   </div>
   <div class="chat">
-    <div class="columns">
+    <div class="columns is-vcentered">
       <div class="column">
-        <textarea
-          placeholder="Type your message here..."
-          @keyup.enter="getCompletion"
-          v-model="userMessage"
-        >
+        <textarea placeholder="Type your message here..." @keyup.enter="getCompletion" v-model="userMessage">
         </textarea>
       </div>
-      <div class="column is-narrow mr-5 mt-5">
-        <button
-          class="button is-primary is-pulled-right"
-          :disabled="!userMessage"
-          @click="getCompletion"
-        >
+      <div class="column is-narrow mr-5">
+        <button class="button is-primary is-pulled-right" :disabled="!userMessage" @click="getCompletion">
           Send
         </button>
       </div>
@@ -120,7 +117,7 @@ async function getCompletion() {
 .chat-thread {
   overflow: scroll;
   margin-bottom: 20px;
-  max-height: calc(100vh - 100px);
+  max-height: calc(100vh - 175px);
   padding-bottom: 20px;
 }
 
