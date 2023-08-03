@@ -3,7 +3,7 @@ import { useAppStore } from '@/stores/app'
 import { storeToRefs } from 'pinia'
 
 const store = useAppStore()
-const { userMessage } = storeToRefs(store)
+const { userMessage, temperature } = storeToRefs(store)
 
 function clearChatBox() {
   store.userMessage = ''
@@ -28,7 +28,7 @@ defineProps({
 <template>
   <div class="chat">
     <div class="columns is-vcentered mr-5 mb-0">
-      <div class="column is-narrow">Creativity</div>
+      <div class="column is-narrow">Temperature</div>
       <div class="column">
         <input class="slider" step=".1" min="0" max="2" v-model="temperature" type="range" />
       </div>

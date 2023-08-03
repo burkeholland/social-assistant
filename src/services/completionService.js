@@ -23,7 +23,8 @@ export default {
     if (result.status === 500) {
       return {
         status: result.status,
-        content: 'The server returned an internal error.'
+        content:
+          'The server returned an internal error. This happens with the Azure OpenAI services sometimes. Try your request again.'
       }
     }
 

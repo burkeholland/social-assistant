@@ -115,7 +115,7 @@ onUpdated(() => {
       v-if="isWaitingForCompletion"
     ></ChatLoading>
   </div>
-  <ChatBox :temperature="temperature" :getCompletion="getCompletion"></ChatBox>
+  <ChatBox :getCompletion="getCompletion"></ChatBox>
 </template>
 
 <style scoped lang="scss">
