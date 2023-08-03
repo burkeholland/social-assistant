@@ -4,20 +4,30 @@ import { ref, onMounted } from 'vue'
 const isLoggedIn = ref(false)
 
 onMounted(async () => {
-  // call the /.auth/me endpoint to see if we're logged in
-  // if not, redirect to the login page
-  const me = await getMe()
-
-  if (me) {
-    isLoggedIn.value = true
-  }
+  // check that the user is authenticated and that they are a microsoft.com or github.com employee
+  checkAuth()
 })
 
-async function getMe() {
+async function checkAuth() {
   const result = await fetch('/.auth/me')
   const data = await result.json()
 
-  return data.clientPrincipal
+  const clientPrincipal = data.clientPrincipal
+
+  // user is not authorized or their auth has expired
+  if (clientPrincipal === null) {
+    return (isLoggedIn.value = false)
+  }
+
+  // get the domain part of the userDetails email address
+  const domain = clientPrincipal.userDetails.split('@')[1]
+
+  // if the domain isn't microsoft.com or github.com, redirect to the login page
+  if (domain !== 'microsoft.com' && domain !== 'github.com') {
+    return
+  }
+
+  isLoggedIn.value = true
 }
 </script>
 
@@ -30,7 +40,7 @@ async function getMe() {
       <div class="centered">
         <div style="text-align: center">
           <h1 class="title">Social Assistant</h1>
-          <h2 class="subtitle">Log in with your Microsoft email address</h2>
+          <h2 class="subtitle">Log in with your microsoft.com or github.com email address</h2>
           <a class="button is-success" href="/.auth/login/aad">Log In</a>
         </div>
       </div>
