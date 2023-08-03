@@ -41,7 +41,7 @@ store.hydrateState(JSON.parse(localStorage.getItem('appState')))
   </div>
 
   <EditSource></EditSource>
-  <!-- <ErrorNotification></ErrorNotification> -->
+  <ErrorNotification></ErrorNotification>
 </template>
 
 <style scoped>

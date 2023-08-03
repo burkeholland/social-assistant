@@ -52,10 +52,6 @@ defineProps({
 </template>
 
 <style>
-.content {
-  white-space: pre-wrap;
-}
-
 .content pre {
   white-space: pre-wrap;
 }
