@@ -27,6 +27,12 @@ defineProps({
 
 <template>
   <div class="chat">
+    <div class="columns is-vcentered mr-5 mb-0">
+      <div class="column is-narrow">Creativity</div>
+      <div class="column">
+        <input class="slider" step=".1" min="0" max="2" v-model="temperature" type="range" />
+      </div>
+    </div>
     <div class="columns is-vcentered">
       <div class="column">
         <textarea
@@ -60,8 +66,6 @@ defineProps({
   padding-bottom: 0.5rem;
   padding-left: 1rem;
   padding-top: 0.5rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
 }
 
 .chat textarea {

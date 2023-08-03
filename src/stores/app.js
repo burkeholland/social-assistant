@@ -7,7 +7,8 @@ export const useAppStore = defineStore('app', {
     groundingSource: ref(''),
     sourceUrl: ref(''),
     userMessage: ref(''),
-    showEditor: ref(false)
+    showEditor: ref(false),
+    temperature: ref(1.0)
   }),
   actions: {
     setErrorMessage(message) {

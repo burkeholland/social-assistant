@@ -9,7 +9,9 @@ module.exports = async function (context, req) {
 
   try {
     // read the source and prompt parameters from the body of the request. The body is www-form-urlencoded.
-    const { groundingSource, messages } = req.body
+    let { groundingSource, messages, temperature } = req.body
+
+    temperature = parseFloat(temperature)
 
     // strip out all HTML tags from the groudingSource to save space
     const groundingSourceText = groundingSource.replace(/(<([^>]+)>)/gi, '')
@@ -31,7 +33,7 @@ module.exports = async function (context, req) {
           'Content-Type': 'application/json',
           'api-key': process.env.AZURE_OPENAI_KEY
         },
-        body: JSON.stringify({ messages: messages })
+        body: JSON.stringify({ messages: messages, temperature: temperature })
       }
     )
 

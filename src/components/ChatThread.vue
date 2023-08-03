@@ -10,7 +10,7 @@ import ChatBox from '@/components/ChatBox.vue'
 import ChatLoading from '@/components/ChatLoading.vue'
 
 const store = useAppStore()
-const { groundingSource, userMessage } = storeToRefs(store)
+const { groundingSource, userMessage, temperature } = storeToRefs(store)
 
 const isWaitingForCompletion = ref(false)
 const messages = ref([])
@@ -37,7 +37,11 @@ async function getCompletion() {
   store.userMessage = ''
 
   try {
-    let completion = await completionService.getCompletion(messages.value, groundingSource.value)
+    let completion = await completionService.getCompletion(
+      messages.value,
+      groundingSource.value,
+      temperature.value
+    )
 
     if (completion.status !== 200) {
       // remove the last message from the messages array because it was not a valid message
@@ -111,27 +115,20 @@ onUpdated(() => {
       v-if="isWaitingForCompletion"
     ></ChatLoading>
   </div>
-  <div class="columns is-vcentered">
-    <div class="column is-narrow">Temperature</div>
-    <div class="column">
-      <input class="slider is-full-width" step="1" min="0" max="100" value="50" type="range" />
-    </div>
-  </div>
-  <ChatBox :getCompletion="getCompletion"></ChatBox>
+  <ChatBox :temperature="temperature" :getCompletion="getCompletion"></ChatBox>
 </template>
 
 <style scoped lang="scss">
 .chat-thread {
   overflow: scroll;
-  margin-bottom: 20px;
-  max-height: calc(100vh - 200px);
+  max-height: calc(100vh - 250px);
   padding-bottom: 20px;
 }
 
 .message {
+  margin-bottom: 2rem;
   margin-left: 1rem;
   margin-right: 1rem;
-  margin-bottom: 1rem;
 }
 
 .user {
