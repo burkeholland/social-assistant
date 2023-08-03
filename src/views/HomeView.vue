@@ -4,6 +4,17 @@ import PromptLibrary from '@/components/PromptLibrary.vue'
 import DownloadSource from '@/components/DownloadSource.vue'
 import EditSource from '@/components/EditSource.vue'
 import ErrorNotification from '@/components/ErrorNotification.vue'
+
+import { useAppStore } from '@/stores/app'
+const store = useAppStore()
+
+// subscribe to all state change events to save state to local storage
+store.$subscribe((mutation, state) => {
+  localStorage.setItem('appState', JSON.stringify(state))
+})
+
+// hydrage the state from localStorage
+store.hydrateState(JSON.parse(localStorage.getItem('appState')))
 </script>
 
 <template>

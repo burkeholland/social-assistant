@@ -1,5 +1,4 @@
 <script setup>
-import { onUpdated, ref } from 'vue'
 import { useAppStore } from '@/stores/app'
 import { storeToRefs } from 'pinia'
 
@@ -7,7 +6,6 @@ const store = useAppStore()
 const { groundingSource, showEditor } = storeToRefs(store)
 
 function closeEditor() {
-  store.tempGroundingSource = store.groundingSource
   store.showEditor = false
 }
 </script>

@@ -29,7 +29,7 @@ async function getMe() {
     <div class="container">
       <div class="centered">
         <div style="text-align: center">
-          <h1 class="title">Advocacy AI Assistant</h1>
+          <h1 class="title">Social Assistant</h1>
           <h2 class="subtitle">Log in with your Microsoft email address</h2>
           <a class="button is-success" href="/.auth/login/aad">Log In</a>
         </div>

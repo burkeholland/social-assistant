@@ -111,6 +111,12 @@ onUpdated(() => {
       v-if="isWaitingForCompletion"
     ></ChatLoading>
   </div>
+  <div class="columns is-vcentered">
+    <div class="column is-narrow">Temperature</div>
+    <div class="column">
+      <input class="slider is-full-width" step="1" min="0" max="100" value="50" type="range" />
+    </div>
+  </div>
   <ChatBox :getCompletion="getCompletion"></ChatBox>
 </template>
 

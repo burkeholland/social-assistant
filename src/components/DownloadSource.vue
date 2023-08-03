@@ -1,20 +1,19 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useAppStore } from '@/stores/app'
 import { storeToRefs } from 'pinia'
 import downloadService from '@/services/downloadService'
 
 const store = useAppStore()
-const { groundingSource, errorMessage } = storeToRefs(store)
+const { groundingSource, sourceUrl } = storeToRefs(store)
 
-const downloadUrl = ref('')
 const isLoading = ref(false)
 const isInvalid = ref(false)
 const groundingSourceIsSet = ref(false)
 
 async function downloadSource() {
   try {
-    new URL(downloadUrl.value)
+    new URL(sourceUrl.value)
   } catch {
     isInvalid.value = true
     return
@@ -24,7 +23,7 @@ async function downloadSource() {
     isInvalid.value = false
     isLoading.value = true
 
-    const data = await downloadService.downloadSourceContent(downloadUrl.value)
+    const data = await downloadService.downloadSourceContent(sourceUrl.value)
     store.groundingSource = data.body.content
 
     isLoading.value = false
@@ -41,8 +40,13 @@ function showEditor() {
 
 function clearGroundingSource() {
   store.groundingSource = ''
+  store.sourceUrl = ''
   groundingSourceIsSet.value = false
 }
+
+onMounted(() => {
+  groundingSourceIsSet.value = groundingSource.value !== ''
+})
 </script>
 
 <template>
@@ -50,20 +54,12 @@ function clearGroundingSource() {
     <p>Enter the URL for your source content</p>
     <div class="field has-addons mt-2">
       <div class="control is-expanded">
-        <input
-          class="input is-success is-small"
-          type="text"
-          placeholder="YouTube video, Release notes, Documentation, etc."
-          v-model="downloadUrl"
-        />
+        <input class="input is-success is-small" type="text"
+          placeholder="YouTube video, Release notes, Documentation, etc." v-model="sourceUrl" />
       </div>
       <div class="control" v-if="!groundingSourceIsSet">
-        <button
-          class="button is-primary is-pulled-right is-small"
-          :class="{ 'is-loading': isLoading }"
-          :disabled="!downloadUrl"
-          @click="downloadSource"
-        >
+        <button class="button is-primary is-pulled-right is-small" :class="{ 'is-loading': isLoading }"
+          :disabled="!sourceUrl" @click="downloadSource">
           Set Source
         </button>
       </div>
@@ -80,9 +76,7 @@ function clearGroundingSource() {
       </p>
     </div>
     <div v-if="groundingSourceIsSet">
-      <span
-        >Chat now grounded in <a :href="downloadUrl">{{ downloadUrl }}</a></span
-      >
+      <span>Chat now grounded in <a :href="sourceUrl">{{ sourceUrl }}</a></span>
     </div>
   </div>
 </template>

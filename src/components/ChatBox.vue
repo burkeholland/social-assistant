@@ -9,6 +9,14 @@ function clearChatBox() {
   store.userMessage = ''
 }
 
+function getLastUserMessage() {
+  // if the usermessage.value is empty, return the last item from the messages array where the role is user
+  if (!userMessage.value) {
+    const lastUserMessage = messages.value.filter((message) => message.role === 'user').pop()
+    store.userMessage = lastUserMessage.content || ''
+  }
+}
+
 defineProps({
   getCompletion: {
     type: Function,
