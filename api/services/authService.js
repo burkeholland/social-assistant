@@ -14,17 +14,10 @@ const authService = {
     let response = {}
 
     if (domainIsApproved) {
-      return { authorized: true, context: context }
+      return clientPrincipal
     }
 
-    context.res = {
-      status: 401,
-      body: {
-        body: 'Unauthorized - Your login may have expired. Please log out and back in.'
-      }
-    }
-
-    return { authorized: false, context: context }
+    return null
   }
 }
 

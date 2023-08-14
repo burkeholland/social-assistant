@@ -1,23 +1,34 @@
-import { useAppStore } from '@/stores/app'
+import fetchUtil from '../utils/fetchUtil'
 
 export default {
   async getPrompts() {
-    const appStore = useAppStore()
-
-    const response = await fetch('/api/prompts', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-
-    const data = await response.json()
-
-    if (response.status !== 200) {
-      appStore.setErrorMessage(data.body)
-      return
+    const result = await fetchUtil.get('/api/prompts')
+    return result.body
+  },
+  async getPrompt(id) {},
+  async savePrompt(id, title, category, text) {
+    let result = {}
+    if (id) {
+      result = await this.updatePrompt(id, title, category, text)
+    } else {
+      result = await this.createPrompt(title, category, text)
     }
-
-    return data.body
+    return result
+  },
+  async updatePrompt(id, title, category, text) {
+    const result = await fetchUtil.put(`/api/prompts/${id}`, {
+      title,
+      category,
+      text
+    })
+    return result.body
+  },
+  async createPrompt(title, category, text) {
+    const result = await fetchUtil.post('/api/prompts', {
+      title,
+      category,
+      text
+    })
+    return result
   }
 }

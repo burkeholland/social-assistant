@@ -67,7 +67,6 @@ defineProps({
   padding-left: 1rem;
   padding-top: 0.5rem;
 }
-
 .chat textarea {
   resize: none;
   min-width: 100%;

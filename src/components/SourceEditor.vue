@@ -12,7 +12,7 @@ function closeEditor() {
 
 <template>
   <div class="modal" :class="{ 'is-active': showEditor }">
-    <div class="modal-background"></div>
+    <div class="modal-background" @click="closeEditor"></div>
     <div class="modal-card" id="editor">
       <header class="modal-card-head">
         <p class="modal-card-title">Edit Grounding Source</p>

@@ -54,12 +54,20 @@ onMounted(() => {
     <p>Enter the URL for your source content</p>
     <div class="field has-addons mt-2">
       <div class="control is-expanded">
-        <input class="input is-success is-small" type="text"
-          placeholder="YouTube video, Release notes, Documentation, etc." v-model="sourceUrl" />
+        <input
+          class="input is-success is-small"
+          type="text"
+          placeholder="YouTube video, Release notes, Documentation, etc."
+          v-model="sourceUrl"
+        />
       </div>
       <div class="control" v-if="!groundingSourceIsSet">
-        <button class="button is-primary is-pulled-right is-small" :class="{ 'is-loading': isLoading }"
-          :disabled="!sourceUrl" @click="downloadSource">
+        <button
+          class="button is-primary is-pulled-right is-small"
+          :class="{ 'is-loading': isLoading }"
+          :disabled="!sourceUrl"
+          @click="downloadSource"
+        >
           Set Source
         </button>
       </div>
@@ -76,7 +84,9 @@ onMounted(() => {
       </p>
     </div>
     <div v-if="groundingSourceIsSet">
-      <span>Chat now grounded in <a :href="sourceUrl">{{ sourceUrl }}</a></span>
+      <span class="is-size-6"
+        >Chat now grounded in <a :href="sourceUrl">{{ sourceUrl }}</a></span
+      >
     </div>
   </div>
 </template>

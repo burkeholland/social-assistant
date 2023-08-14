@@ -10,17 +10,16 @@ import ChatBox from '@/components/ChatBox.vue'
 import ChatLoading from '@/components/ChatLoading.vue'
 
 const store = useAppStore()
-const { groundingSource, userMessage, temperature } = storeToRefs(store)
+const { groundingSource, userMessage, temperature, messages } = storeToRefs(store)
 
 const isWaitingForCompletion = ref(false)
-const messages = ref([])
 const chatThread = ref(null)
 
 function deleteMessage(id) {
   // delete the message with the id passed as well as the one right after it in the messages array
   // this is because the message with the id is the user message and the one after it is the assistant message
   const index = messages.value.findIndex((message) => message.id === id)
-  messages.value.splice(index, 2)
+  store.messages.splice(index, 2)
 }
 
 async function getCompletion() {
@@ -31,7 +30,7 @@ async function getCompletion() {
 
   isWaitingForCompletion.value = true
 
-  messages.value.push({ id: uid(), role: 'user', content: userMessage.value })
+  store.messages.push({ id: uid(), role: 'user', content: userMessage.value })
 
   const savedUserMessage = userMessage.value
   store.userMessage = ''
@@ -45,7 +44,7 @@ async function getCompletion() {
 
     if (completion.status !== 200) {
       // remove the last message from the messages array because it was not a valid message
-      messages.value.pop()
+      store.messages.pop()
       // show the app error message
       store.errorMessage = completion.content
     } else {
@@ -60,7 +59,7 @@ async function getCompletion() {
     isWaitingForCompletion.value = false
   } catch (error) {
     // remove the last message from the messages array because it was not a valid message
-    messages.value.pop()
+    store.messages.pop()
     // show the app error message
     store.errorMessage = error.message
     isWaitingForCompletion.value = false

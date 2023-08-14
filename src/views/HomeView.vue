@@ -2,8 +2,9 @@
 import ChatThread from '@/components/ChatThread.vue'
 import PromptLibrary from '@/components/PromptLibrary.vue'
 import DownloadSource from '@/components/DownloadSource.vue'
-import EditSource from '@/components/EditSource.vue'
+import SourceEditor from '@/components/SourceEditor.vue'
 import ErrorNotification from '@/components/ErrorNotification.vue'
+import PromptEditor from '@/components/PromptEditor.vue'
 
 import { useAppStore } from '@/stores/app'
 const store = useAppStore()
@@ -40,7 +41,8 @@ store.hydrateState(JSON.parse(localStorage.getItem('appState')))
     </div>
   </div>
 
-  <EditSource></EditSource>
+  <SourceEditor></SourceEditor>
+  <PromptEditor></PromptEditor>
   <ErrorNotification></ErrorNotification>
 </template>
 
