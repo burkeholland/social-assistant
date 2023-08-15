@@ -2,7 +2,7 @@ const authService = require('../services/authService')
 const promptsService = require('../services/promptsService')
 
 module.exports = async function (context, req) {
-  const clientPrincipal = authService.isUserAuthorized(req, context)
+  const clientPrincipal = authService.isUserAuthorized(req)
   if (clientPrincipal) {
     try {
       // get all the prompts from the database

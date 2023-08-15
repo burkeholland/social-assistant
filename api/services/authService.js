@@ -1,5 +1,5 @@
 const authService = {
-  isUserAuthorized(req, context) {
+  isUserAuthorized(req) {
     try {
       const header = req.headers['x-ms-client-principal']
       const encoded = Buffer.from(header, 'base64')
@@ -12,13 +12,14 @@ const authService = {
         (clientPrincipal.userDetails.endsWith('@microsoft.com') ||
           clientPrincipal.userDetails.endsWith('@github.com'))
 
-      let response = {}
+      if (domainIsApproved) {
+        return clientPrincipal
+      }
 
-    if (domainIsApproved) {
-      return clientPrincipal
+      return null
+    } catch {
+      return null
     }
-
-    return null
   }
 }
 

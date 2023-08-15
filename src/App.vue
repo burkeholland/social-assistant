@@ -1,14 +1,17 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
+import { useAppStore } from '@/stores/app'
+import { storeToRefs } from 'pinia'
 
-const isLoggedIn = ref(false)
+const store = useAppStore()
+const { userId } = storeToRefs(store)
 
 onMounted(async () => {
   // check that the user is authenticated and that they are a microsoft.com or github.com employee
-  checkAuth()
+  store.userId = await getUserId()
 })
 
-async function checkAuth() {
+async function getUserId() {
   const result = await fetch('/.auth/me')
   const data = await result.json()
 
@@ -16,7 +19,7 @@ async function checkAuth() {
 
   // user is not authorized or their auth has expired
   if (clientPrincipal === null) {
-    return (isLoggedIn.value = false)
+    return null
   }
 
   // get the domain part of the userDetails email address
@@ -24,15 +27,15 @@ async function checkAuth() {
 
   // if the domain isn't microsoft.com or github.com, redirect to the login page
   if (domain !== 'microsoft.com' && domain !== 'github.com') {
-    return
+    return null
   }
 
-  isLoggedIn.value = true
+  return clientPrincipal.userId
 }
 </script>
 
 <template>
-  <main class="container is-flex is-flex-direction-column" v-if="isLoggedIn">
+  <main class="container is-flex is-flex-direction-column" v-if="userId">
     <RouterView />
   </main>
   <div v-else>

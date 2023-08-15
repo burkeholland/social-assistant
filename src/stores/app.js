@@ -1,6 +1,4 @@
-import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { prompt } from '@/stores/models'
 
 export const useAppStore = defineStore('app', {
   // All app state is stored here so it can be easily saved to local
@@ -11,6 +9,7 @@ export const useAppStore = defineStore('app', {
       groundingSource: '',
       sourceUrl: '',
       userMessage: '',
+      userId: '',
       showEditor: false,
       temperature: 1.0,
       showPromptEditor: false,
