@@ -16,7 +16,7 @@ const prompsService = {
   },
   async getPromptByTitle(title) {
     const { resources } = await container.items
-      .query(`SELECT * from c WHERE c.title = '${title}'`)
+      .query(`SELECT * from c WHERE c.title = "${title}"`)
       .fetchAll()
     return resources
   },
