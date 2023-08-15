@@ -75,6 +75,7 @@ function closeModal(e) {
           <div class="control">
             <div class="select">
               <select name="promptType" id="promptType" v-model="promptToSave.category">
+                <option value="Video">Video</option>
                 <option value="Social">Social</option>
                 <option value="Blog">Blog</option>
               </select>
