@@ -20,16 +20,20 @@ const prompsService = {
       .fetchAll()
     return resources
   },
-  async createPrompt(title, category, prompt, userId) {
+  async createPrompt(title, category, text, userId) {
     // do an upset to the db - partition key is 'category'
     const { resource } = await container.items.create({
       category,
       title,
-      prompt,
+      text,
       userId
     })
 
     return resource
+  },
+  async deletePrompt(id) {
+    await container.item(id, undefined).delete()
+    return id
   }
 }
 

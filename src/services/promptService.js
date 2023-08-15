@@ -30,5 +30,9 @@ export default {
       text
     })
     return result
+  },
+  async deletePrompt(id) {
+    const result = await fetchUtil.delete(`/api/prompts/${id}`)
+    return result
   }
 }

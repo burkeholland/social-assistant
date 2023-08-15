@@ -14,6 +14,7 @@ export const useAppStore = defineStore('app', {
       temperature: 1.0,
       showPromptEditor: false,
       messages: [],
+      prompts: [],
       promptToSave: {
         id: '',
         title: '',

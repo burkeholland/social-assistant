@@ -11,6 +11,10 @@ export default {
     const result = await this._fetch('PUT', url, body)
     return result
   },
+  async delete(url) {
+    const result = await this._fetch('DELETE', url)
+    return result
+  },
   async _fetch(method, url, body) {
     try {
       let options = {

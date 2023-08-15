@@ -28,6 +28,8 @@ async function savePrompt(e) {
       }
 
       store.showPromptEditor = false
+
+      store.prompts = await promptService.getPrompts()
     }
   } catch (error) {
     store.errorMessage = error.content

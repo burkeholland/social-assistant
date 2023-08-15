@@ -5,9 +5,8 @@ import { storeToRefs } from 'pinia'
 import promptService from '@/services/promptService'
 
 const store = useAppStore()
-const { userMessage, userId } = storeToRefs(store)
+const { userMessage, userId, prompts } = storeToRefs(store)
 
-const prompts = ref([])
 const categories = ref([])
 const filterVal = ref('')
 const filterBy = ref('')
@@ -19,7 +18,7 @@ onMounted(() => {
 async function getPrompts() {
   try {
     // get all prompts from db
-    prompts.value = await promptService.getPrompts()
+    store.prompts = await promptService.getPrompts()
 
     // get the distinct categories from the prompts result
     categories.value = [...new Set(prompts.value.map((prompt) => prompt.category))]
@@ -33,14 +32,17 @@ function setUserMessage(message) {
 }
 
 const filteredPrompts = computed(() => {
-  console.log('filterVal', filterVal.value)
-
   if (!filterVal.value) {
     return prompts.value
   }
 
-  return prompts.value.filter((prompt) => prompt[filterBy.value] === filterVal.value)
+  return store.prompts.filter((prompt) => prompt[filterBy.value] === filterVal.value)
 })
+
+async function deletePrompt(id) {
+  await promptService.deletePrompt(id)
+  store.prompts = store.prompts.filter((prompt) => prompt.id !== id)
+}
 </script>
 
 <template>
@@ -88,10 +90,12 @@ const filteredPrompts = computed(() => {
       class="panel-block flex is-justify-content-space-between is-align-items-center"
     >
       <div>
-        {{ prompt.title }}
+        <a @click="setUserMessage(prompt.text)">{{ prompt.title }}</a>
       </div>
       <div class="is-align-self-flex-end mr-3">
-        <a @click="setUserMessage(prompt.text)">Use</a>
+        <a @click="deletePrompt(prompt.id)" v-if="prompt.userId === userId && filterBy === 'userId'"
+          >Delete
+        </a>
       </div>
     </div>
   </article>
