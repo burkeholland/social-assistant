@@ -2,36 +2,34 @@
 
 **This is not the Advocacy AI Tools repo. It is just an experiment.** Go to https://github.com/burkeholland/advocacy-ai-tools for the app deployed at aka.ms/advocacy-ai-tools.
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
 ## Project Setup
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Run frontend server
 
 ```sh
 npm run dev
 ```
 
+### Run API
+
+```sh
+func start
+```
+
+### Run SWA Emulator
+
+```sh
+swa start http://localhost:5173
+```
+
+Access the application on http://localhost:4280
+
 ### Compile and Minify for Production
 
 ```sh
 npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
 ```

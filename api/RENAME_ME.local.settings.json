@@ -1,0 +1,9 @@
+{
+    "IsEncrypted": false,
+    "Values": {
+      "FUNCTIONS_WORKER_RUNTIME": "node",
+      "COSMOSDB_CONNECTION_STRING": "",
+      "OPENAI_API_KEY": "",
+      "AZURE_OPENAI_KEY": ""
+    }
+  }
