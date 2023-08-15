@@ -27,9 +27,6 @@ store.hydrateState(JSON.parse(localStorage.getItem('appState')))
             <div class="column">
               <h1 class="title">Social Assistant</h1>
             </div>
-            <div class="column is-narrow">
-              <a href="/logout" class="button">Log Out</a>
-            </div>
           </div>
         </nav>
         <DownloadSource class="block"></DownloadSource>

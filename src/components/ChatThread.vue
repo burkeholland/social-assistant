@@ -79,13 +79,12 @@ onUpdated(() => {
 </script>
 
 <template>
-  <button
-    class="button is-small is-danger is-align-self-flex-end mb-4 mr-4"
-    v-if="messages.length > 0"
-    @click="clearChat"
-  >
-    Clear Chat
-  </button>
+  <div class="mb-4">
+    <button class="button is-small is-danger ml-4" v-if="messages.length > 0" @click="clearChat">
+      Clear Chat
+    </button>
+    <a href="/logout" class="button is-small is-pulled-right mr-4">Log Out</a>
+  </div>
   <div ref="chatThread" class="chat-thread is-flex-grow-1">
     <div class="box message has-background-white system-message">
       <div class="columns is-vcentered">
