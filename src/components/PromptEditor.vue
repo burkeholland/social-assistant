@@ -78,6 +78,7 @@ function closeModal(e) {
                 <option value="Video">Video</option>
                 <option value="Social">Social</option>
                 <option value="Blog">Blog</option>
+                <option value="Other">Other</option>
               </select>
             </div>
           </div>
