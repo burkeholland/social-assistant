@@ -23,7 +23,7 @@ module.exports = async function (context, req) {
       messages.unshift(systemPrompt)
 
       const response = await fetch(
-        'https://chatterbox.openai.azure.com/openai/deployments/gpt-35-turbo-16k/chat/completions?api-version=2023-05-15',
+        process.env.AZURE_OPENAI_ENDPOINT,
         {
           method: 'POST',
           headers: {
@@ -48,7 +48,7 @@ module.exports = async function (context, req) {
       const responseContent = json.choices[0].message.content
 
       // parse the response with marked
-      const parsedResponse = marked(responseContent)
+      const parsedResponse = marked(responseContent, { mangle: false, headerIds: false })
 
       context.res = {
         status: response.status,

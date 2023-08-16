@@ -43,11 +43,24 @@ async function deletePrompt(id) {
   await promptService.deletePrompt(id)
   store.prompts = store.prompts.filter((prompt) => prompt.id !== id)
 }
+
+function createPrompt() {
+  store.initPromptState()
+  store.showPromptEditor = true
+}
+
 </script>
 
 <template>
   <article class="panel is-success">
-    <p class="panel-heading">Prompt Library</p>
+    <div class="is-flex is-justify-content-space-between panel-heading">
+      <p>Prompt Library</p>
+      <button class="button is-success" @click="createPrompt">
+        <span class="icon">
+          <i class="fas fa-plus"></i>
+        </span>
+      </button>
+    </div>
     <p class="panel-tabs">
       <a
         :class="{ 'is-active': filterVal === '' }"

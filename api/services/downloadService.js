@@ -1,6 +1,6 @@
 var { Readability } = require('@mozilla/readability')
 var { JSDOM } = require('jsdom')
-const { getSubtitles, getVideoDetails } = require('youtube-caption-extractor')
+const { getSubtitles } = require('youtube-caption-extractor')
 
 const downloadService = {
   downloadWebPageText: async (url) => {
