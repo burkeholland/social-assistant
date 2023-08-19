@@ -11,7 +11,7 @@ const prompsService = {
     return resources
   },
   async getPrompt(id) {
-    const { resource } = await container.item(id, id).read()
+    const { resource } = await container.item(id, undefined).read()
     return resource
   },
   async getPromptByTitle(title) {
