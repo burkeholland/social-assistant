@@ -10,6 +10,14 @@ module.exports = async function (context, req) {
 
     const { id } = req.params
 
+    // make sure the user has the right to delete this item by checking to see if the item in the database has their user id associated with it
+    const prompt = await promptsService.getPrompt(id)
+
+
+    if (prompt.userId !== clientPrincipal.userId) {
+      return unauthorizedResponse(context)
+    }
+
     const response = await promptsService.deletePrompt(id)
 
     context.res = {

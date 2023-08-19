@@ -53,8 +53,9 @@ function createPrompt() {
 
 <template>
   <article class="panel is-success">
-    <div class="is-flex is-justify-content-space-between panel-heading">
-      <p>Prompt Library</p>
+    <div
+      class="is-flex is-justify-content-space-between has-background-success has-text-white is-align-items-center panel-heading">
+      <p class="">Prompt Library</p>
       <button class="button is-success" @click="createPrompt">
         <span class="icon">
           <i class="fas fa-plus"></i>
@@ -62,53 +63,31 @@ function createPrompt() {
       </button>
     </div>
     <p class="panel-tabs">
-      <a
-        :class="{ 'is-active': filterVal === '' }"
-        @click="
-          () => {
-            filterVal = ''
-            filterBy = 'category'
-          }
-        "
-        v-if="categories.length > 0"
-        >All</a
-      >
-      <a
-        v-for="category in categories"
-        :key="category"
-        @click="
-          () => {
-            filterVal = category
-            filterBy = 'category'
-          }
-        "
-        :class="{ 'is-active': filterVal === category }"
-      >
-        {{ category }}</a
-      >
-      <a
-        :class="{ 'is-active': filterVal === userId }"
-        @click="
-          () => {
-            filterVal = userId
-            filterBy = 'userId'
-          }
-        "
-        >Mine</a
-      >
+      <a :class="{ 'is-active': filterVal === '' }" @click="() => {
+        filterVal = ''
+        filterBy = 'category'
+      }
+        " v-if="categories.length > 0">All</a>
+      <a v-for="category in categories" :key="category" @click="() => {
+        filterVal = category
+        filterBy = 'category'
+      }
+        " :class="{ 'is-active': filterVal === category }">
+        {{ category }}</a>
+      <a :class="{ 'is-active': filterVal === userId }" @click="() => {
+        filterVal = userId
+        filterBy = 'userId'
+      }
+        ">Mine</a>
     </p>
-    <div
-      v-for="prompt in filteredPrompts"
-      :key="prompt.id"
-      class="panel-block flex is-justify-content-space-between is-align-items-center"
-    >
+    <div v-for="prompt in filteredPrompts" :key="prompt.id"
+      class="panel-block flex is-justify-content-space-between is-align-items-center">
       <div>
         <a @click="setUserMessage(prompt.text)">{{ prompt.title }}</a>
       </div>
       <div class="is-align-self-flex-end mr-3">
-        <a @click="deletePrompt(prompt.id)" v-if="prompt.userId === userId && filterBy === 'userId'"
-          >Delete
-        </a>
+        <button class="delete" @click="deletePrompt(prompt.id)" v-if="prompt.userId === userId">Delete
+        </button>
       </div>
     </div>
   </article>
