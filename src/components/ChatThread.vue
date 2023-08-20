@@ -47,6 +47,7 @@ async function getCompletion() {
       store.messages.pop()
       // show the app error message
       store.errorMessage = completion.content
+      store.userMessage = savedUserMessage
     } else {
       messages.value.push({
         id: uid(),
@@ -100,18 +101,10 @@ onUpdated(() => {
       </div>
     </div>
     <div v-for="message in messages" :key="message.id" class="block" :id="message.id">
-      <ChatMessage
-        class="box message"
-        :class="message.role"
-        :message="message"
-        :deleteMessage="deleteMessage"
-      >
+      <ChatMessage class="box message" :class="message.role" :message="message" :deleteMessage="deleteMessage">
       </ChatMessage>
     </div>
-    <ChatLoading
-      class="box message has-background-white system-message"
-      v-if="isWaitingForCompletion"
-    ></ChatLoading>
+    <ChatLoading class="box message has-background-white system-message" v-if="isWaitingForCompletion"></ChatLoading>
   </div>
   <ChatBox :getCompletion="getCompletion"></ChatBox>
 </template>
