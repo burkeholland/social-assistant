@@ -15,7 +15,8 @@
 				"Vue.volar",
 				"ms-azuretools.vscode-azurefunctions",
 				"GitHub.copilot",
-				"GitHub.copilot-chat"
+				"GitHub.copilot-chat",
+				"GitHub.vscode-pull-request-github"
 			]
 		}
 	},

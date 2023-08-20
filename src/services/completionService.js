@@ -33,7 +33,7 @@ export default {
     if (result.status !== 200) {
       return {
         status: result.status,
-        content: `There was an error with the completion service: ${result.body}`
+        content: data.body
       }
     }
 
