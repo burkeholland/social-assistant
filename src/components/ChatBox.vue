@@ -9,14 +9,6 @@ function clearChatBox() {
   store.userMessage = ''
 }
 
-function getLastUserMessage() {
-  // if the usermessage.value is empty, return the last item from the messages array where the role is user
-  if (!userMessage.value) {
-    const lastUserMessage = messages.value.filter((message) => message.role === 'user').pop()
-    store.userMessage = lastUserMessage.content || ''
-  }
-}
-
 defineProps({
   getCompletion: {
     type: Function,
@@ -35,19 +27,11 @@ defineProps({
     </div>
     <div class="columns is-vcentered">
       <div class="column">
-        <textarea
-          placeholder="Type your message here..."
-          @keyup.enter="getCompletion"
-          v-model="userMessage"
-        >
+        <textarea placeholder="Type your message here..." @keyup.enter="getCompletion" v-model="userMessage">
         </textarea>
       </div>
       <div class="column is-narrow mr-5">
-        <button
-          class="button is-primary is-block mb-2"
-          :disabled="!userMessage"
-          @click="getCompletion"
-        >
+        <button class="button is-primary is-block mb-2" :disabled="!userMessage" @click="getCompletion">
           Send
         </button>
         <button class="button is-danger" :disabled="!userMessage" @click="clearChatBox">
@@ -67,6 +51,7 @@ defineProps({
   padding-left: 1rem;
   padding-top: 0.5rem;
 }
+
 .chat textarea {
   resize: none;
   min-width: 100%;
