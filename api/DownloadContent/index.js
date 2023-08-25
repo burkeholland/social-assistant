@@ -13,6 +13,8 @@ module.exports = async function download(context, req) {
       // if the url is a youtube url
       if (downloadUrl.includes('youtube') || downloadUrl.includes('youtu.be')) {
         result = await downloadService.downloadYouTubeCaptions(downloadUrl)
+      } else if (downloadUrl.includes('github.com') && downloadUrl.includes('/releases/')) {
+        result = await downloadService.downloadGitHubRelease(downloadUrl)
       } else {
         // otherwise we assume its a webpage and try to download the text
         result = await downloadService.downloadWebPageText(downloadUrl)
