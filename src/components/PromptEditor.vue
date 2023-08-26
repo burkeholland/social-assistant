@@ -15,7 +15,6 @@ async function savePrompt(e) {
 
   try {
     if (validateForm()) {
-      console.log({ promptToSave })
       const result = await promptService.savePrompt(
         promptToSave.value.id ?? null,
         promptToSave.value.title,
