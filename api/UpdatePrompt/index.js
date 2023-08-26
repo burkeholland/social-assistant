@@ -7,7 +7,8 @@ module.exports = async function (context, req) {
     return unauthorizedResponse(context)
   }
 
-  const { id, title, category, text } = req.body
+  const { id } = req.params
+  const { title, category, text } = req.body
 
   // first, see if the item exists in the database already
   const existingPrompt = await promptsService.getPrompt(id)

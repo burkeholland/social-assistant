@@ -15,8 +15,9 @@ async function savePrompt(e) {
 
   try {
     if (validateForm()) {
+      console.log({ promptToSave })
       const result = await promptService.savePrompt(
-        null,
+        promptToSave.value.id ?? null,
         promptToSave.value.title,
         promptToSave.value.category,
         promptToSave.value.text
@@ -60,14 +61,7 @@ function closeModal(e) {
         <div class="field">
           <label for="promptTitle" class="label">Title</label>
           <div class="control">
-            <input
-              v-model="promptToSave.title"
-              type="text"
-              name="promptTitle"
-              id="promptTitle"
-              class="input"
-              required
-            />
+            <input v-model="promptToSave.title" type="text" name="promptTitle" id="promptTitle" class="input" required />
           </div>
         </div>
         <div class="field">

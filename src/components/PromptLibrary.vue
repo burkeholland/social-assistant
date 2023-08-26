@@ -21,7 +21,7 @@ async function getPrompts() {
     store.prompts = await promptService.getPrompts()
 
     // get the distinct categories from the prompts result
-    categories.value = [...new Set(prompts.value.map((prompt) => prompt.category))]
+    categories.value = [ ...new Set(prompts.value.map((prompt) => prompt.category)) ]
   } catch (error) {
     store.errorMessage = error.content
   }
@@ -36,12 +36,19 @@ const filteredPrompts = computed(() => {
     return prompts.value
   }
 
-  return store.prompts.filter((prompt) => prompt[filterBy.value] === filterVal.value)
+  return store.prompts.filter((prompt) => prompt[ filterBy.value ] === filterVal.value)
 })
 
 async function deletePrompt(id) {
   await promptService.deletePrompt(id)
   store.prompts = store.prompts.filter((prompt) => prompt.id !== id)
+}
+
+function updatePrompt(prompt) {
+  console.log(prompt)
+  const { id, title, category, text } = prompt
+  store.initPromptState(id, title, category, text)
+  store.showPromptEditor = true
 }
 
 function createPrompt() {
@@ -62,52 +69,31 @@ function createPrompt() {
       </button>
     </div>
     <p class="panel-tabs">
-      <a
-        :class="{ 'is-active': filterVal === '' }"
-        @click="
-          () => {
-            filterVal = ''
-            filterBy = 'category'
-          }
-        "
-        v-if="categories.length > 0"
-        >All</a
-      >
-      <a
-        v-for="category in categories"
-        :key="category"
-        @click="
-          () => {
-            filterVal = category
-            filterBy = 'category'
-          }
-        "
-        :class="{ 'is-active': filterVal === category }"
-      >
-        {{ category }}</a
-      >
-      <a
-        :class="{ 'is-active': filterVal === userId }"
-        @click="
-          () => {
-            filterVal = userId
-            filterBy = 'userId'
-          }
-        "
-        >Mine</a
-      >
+      <a :class="{ 'is-active': filterVal === '' }" @click="() => {
+        filterVal = ''
+        filterBy = 'category'
+      }
+        " v-if="categories.length > 0">All</a>
+      <a v-for="category in categories" :key="category" @click="() => {
+        filterVal = category
+        filterBy = 'category'
+      }
+        " :class="{ 'is-active': filterVal === category }">
+        {{ category }}</a>
+      <a :class="{ 'is-active': filterVal === userId }" @click="() => {
+        filterVal = userId
+        filterBy = 'userId'
+      }
+        ">Mine</a>
     </p>
-    <div
-      v-for="prompt in filteredPrompts"
-      :key="prompt.id"
-      class="panel-block flex is-justify-content-space-between is-align-items-center"
-    >
+    <div v-for="prompt in filteredPrompts" :key="prompt.id"
+      class="panel-block flex is-justify-content-space-between is-align-items-center">
       <div>
         <a @click="setUserMessage(prompt.text)">{{ prompt.title }}</a>
       </div>
-      <div class="is-align-self-flex-end mr-3">
-        <a @click="deletePrompt(prompt.id)" v-if="prompt.userId === userId && filterBy === 'userId'"
-          >Delete
+      <div class="is-align-self-flex-end mr-3" v-if="prompt.userId === userId && filterBy === 'userId'">
+        <a @click="updatePrompt(prompt)">Edit</a>
+        <a @click="deletePrompt(prompt.id)">Delete
         </a>
       </div>
     </div>
