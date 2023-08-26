@@ -13,7 +13,10 @@
 		"vscode": {
 			"extensions": [
 				"Vue.volar",
-				"ms-azuretools.vscode-azurefunctions"
+				"ms-azuretools.vscode-azurefunctions",
+				"GitHub.copilot",
+				"GitHub.copilot-chat",
+				"GitHub.vscode-pull-request-github"
 			]
 		}
 	},

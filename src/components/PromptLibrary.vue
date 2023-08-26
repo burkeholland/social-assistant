@@ -45,7 +45,6 @@ async function deletePrompt(id) {
 }
 
 function updatePrompt(prompt) {
-  console.log(prompt)
   const { id, title, category, text } = prompt
   store.initPromptState(id, title, category, text)
   store.showPromptEditor = true
@@ -60,8 +59,9 @@ function createPrompt() {
 
 <template>
   <article class="panel is-success">
-    <div class="is-flex is-justify-content-space-between panel-heading">
-      <p>Prompt Library</p>
+    <div
+      class="is-flex is-justify-content-space-between has-background-success has-text-white is-align-items-center panel-heading">
+      <p class="">Prompt Library</p>
       <button class="button is-success" @click="createPrompt">
         <span class="icon">
           <i class="fas fa-plus"></i>
@@ -91,10 +91,9 @@ function createPrompt() {
       <div>
         <a @click="setUserMessage(prompt.text)">{{ prompt.title }}</a>
       </div>
-      <div class="is-align-self-flex-end mr-3" v-if="prompt.userId === userId && filterBy === 'userId'">
-        <a @click="updatePrompt(prompt)">Edit</a>
-        <a @click="deletePrompt(prompt.id)">Delete
-        </a>
+      <div class="is-align-self-flex-end mr-3"   v-if="prompt.userId === userId">
+        <button @click="updatePrompt(prompt)">Edit</button>
+        <button class="delete" @click="deletePrompt(prompt.id)">Delete</button>
       </div>
     </div>
   </article>
