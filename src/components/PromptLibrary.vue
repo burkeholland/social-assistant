@@ -91,9 +91,17 @@ function createPrompt() {
       <div>
         <a @click="setUserMessage(prompt.text)">{{ prompt.title }}</a>
       </div>
-      <div class="is-align-self-flex-end mr-3" v-if="prompt.userId === userId">
-        <button class="pen-to-square" @click="updatePrompt(prompt)">Edit</button>
-        <button class="delete" @click="deletePrompt(prompt.id)">Delete</button>
+      <div class="is-align-self-flex-end mr-3 is-4" v-if="prompt.userId === userId">
+        <button class="button is-small is-white" @click="updatePrompt(prompt)">
+          <span class="icon">
+            <i class="fas fa-pen"></i>
+          </span>
+        </button>
+        <button class="button is-small is-white" @click="deletePrompt(prompt.id)">
+          <span class="icon">
+            <i class="fas fa-trash"></i>
+          </span>
+        </button>
       </div>
     </div>
   </article>
