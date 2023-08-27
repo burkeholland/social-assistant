@@ -5,7 +5,7 @@ export default {
     const result = await fetchUtil.get('/api/prompts')
     return result.body
   },
-  async getPrompt(id) {},
+  async getPrompt(id) { },
   async savePrompt(id, title, category, text) {
     let result = {}
     if (id) {
@@ -21,7 +21,7 @@ export default {
       category,
       text
     })
-    return result.body
+    return result
   },
   async createPrompt(title, category, text) {
     const result = await fetchUtil.post('/api/prompts', {

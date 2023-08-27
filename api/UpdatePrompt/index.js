@@ -15,7 +15,6 @@ module.exports = async function (context, req) {
     // first, see if the item exists in the database already
     const existingPrompt = await promptsService.getPrompt(id)
 
-    console.log({ existingPrompt })
     // the prompt already exists, so we need to check to see if the user has the right to update it
     if (!existingPrompt || existingPrompt.userId !== clientPrincipal.userId) {
       return unauthorizedResponse(context)

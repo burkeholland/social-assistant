@@ -27,8 +27,8 @@ async function savePrompt(e) {
         return
       }
 
-      store.showPromptEditor = false
 
+      store.showPromptEditor = false
       store.prompts = await promptService.getPrompts()
     }
   } catch (error) {
