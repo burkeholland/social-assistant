@@ -31,6 +31,17 @@ const prompsService = {
 
     return resource
   },
+  async updatePrompt(id, title, category, text, userId) {
+    const { resource: prompt } = await container.item(id, undefined).read()
+    prompt.title = title
+    prompt.category = category
+    prompt.text = text
+    prompt.userId = userId
+
+    const { resource } = await container.item(id).replace(prompt)
+
+    return resource
+  },
   async deletePrompt(id) {
     await container.item(id, undefined).delete()
     return id

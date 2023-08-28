@@ -21,7 +21,7 @@ async function getPrompts() {
     store.prompts = await promptService.getPrompts()
 
     // get the distinct categories from the prompts result
-    categories.value = [...new Set(prompts.value.map((prompt) => prompt.category))]
+    categories.value = [ ...new Set(prompts.value.map((prompt) => prompt.category)) ]
   } catch (error) {
     store.errorMessage = error.content
   }
@@ -36,12 +36,18 @@ const filteredPrompts = computed(() => {
     return prompts.value
   }
 
-  return store.prompts.filter((prompt) => prompt[filterBy.value] === filterVal.value)
+  return store.prompts.filter((prompt) => prompt[ filterBy.value ] === filterVal.value)
 })
 
 async function deletePrompt(id) {
   await promptService.deletePrompt(id)
   store.prompts = store.prompts.filter((prompt) => prompt.id !== id)
+}
+
+function updatePrompt(prompt) {
+  const { id, title, category, text } = prompt
+  store.initPromptState(id, title, category, text)
+  store.showPromptEditor = true
 }
 
 function createPrompt() {
@@ -85,8 +91,16 @@ function createPrompt() {
       <div>
         <a @click="setUserMessage(prompt.text)">{{ prompt.title }}</a>
       </div>
-      <div class="is-align-self-flex-end mr-3">
-        <button class="delete" @click="deletePrompt(prompt.id)" v-if="prompt.userId === userId">Delete
+      <div class="is-align-self-flex-end mr-3 is-4" v-if="prompt.userId === userId">
+        <button class="button is-small is-white" @click="updatePrompt(prompt)">
+          <span class="icon">
+            <i class="fas fa-pen"></i>
+          </span>
+        </button>
+        <button class="button is-small is-white" @click="deletePrompt(prompt.id)">
+          <span class="icon">
+            <i class="fas fa-trash"></i>
+          </span>
         </button>
       </div>
     </div>
