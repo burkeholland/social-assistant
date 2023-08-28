@@ -6,17 +6,24 @@ module.exports = async function (context, req) {
   if (clientPrincipal) {
     try {
       // read the source and prompt parameters from the body of the request. The body is www-form-urlencoded.
-      let { groundingSource, messages, temperature } = req.body
+      let { contextContent, referenceContent, messages, temperature } = req.body
 
       temperature = parseFloat(temperature)
 
       // strip out all HTML tags from the groudingSource to save space
-      const groundingSourceText = groundingSource.replace(/(<([^>]+)>)/gi, '')
+      const contextContentText = contextContent.replace(/(<([^>]+)>)/gi, '')
+      const referenceContentText = referenceContent.replace(/(<([^>]+)>)/gi, '')
 
       // set the system prompt and ground the model
       const systemPrompt = {
         role: 'system',
-        content: `You are a social assistant who writes creative content when given a source. You will politely decline any other requests from the user not related to creating content. If the source content is not provided, tell the user that they need to provide a source before you can answer any questions about it. You format all your responses as Markdown unless otherwise specified. You will ground your responses in the following source content: ${groundingSourceText}.`
+        content: `You are a social media assistant who writes creative content. You wll be provided with a source that is delimited by three single quotes. 
+        
+        '''${contextContentText}'''
+
+        You will format your responses by imitating the writing style provided in the style reference. The style reference is delimited by three back slashes.
+
+        ///${referenceContentText}///`
       }
 
       // add the systemPrompt to the start of the messages array

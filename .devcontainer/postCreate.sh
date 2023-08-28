@@ -9,7 +9,7 @@ npm install
 # Install the Azure Functions Core Tools
 npm install -g azure-functions-core-tools@4 --unsafe-perm true
 
-# Install concurrently 
+# Install concurrently for running the app
 npm install -g concurrently
 
 ## Switch to the api directory and npm install

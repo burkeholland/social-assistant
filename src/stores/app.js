@@ -6,8 +6,10 @@ export const useAppStore = defineStore('app', {
   state: () => {
     return {
       errorMessage: '',
-      groundingSource: '',
-      sourceUrl: '',
+      contextContent: '',
+      contextUrl: '',
+      referenceContent: '',
+      referenceUrl: '',
       userMessage: '',
       userId: '',
       showEditor: false,

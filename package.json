@@ -9,7 +9,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
     "func": "cd api && func start",
-    "emulate": "concurrently \"npm run dev\" \"swa start http://localhost:5173\""
+    "emulate": "concurrently \"vite\" \"swa start http://localhost:5173\" \"cd api && func start\""
   },
   "dependencies": {
     "bulma": "^0.9.4",

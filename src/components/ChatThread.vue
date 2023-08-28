@@ -10,7 +10,7 @@ import ChatBox from '@/components/ChatBox.vue'
 import ChatLoading from '@/components/ChatLoading.vue'
 
 const store = useAppStore()
-const { groundingSource, userMessage, temperature, messages } = storeToRefs(store)
+const { contextContent, referenceContent, userMessage, temperature, messages } = storeToRefs(store)
 
 const isWaitingForCompletion = ref(false)
 const chatThread = ref(null)
@@ -37,8 +37,9 @@ async function getCompletion() {
 
   try {
     let completion = await completionService.getCompletion(
+      contextContent.value,
+      referenceContent.value,
       messages.value,
-      groundingSource.value,
       temperature.value
     )
 

@@ -3,7 +3,7 @@ import { useAppStore } from '@/stores/app'
 import { storeToRefs } from 'pinia'
 
 const store = useAppStore()
-const { groundingSource, showEditor } = storeToRefs(store)
+const { contextContent, showEditor } = storeToRefs(store)
 
 function closeEditor() {
   store.showEditor = false
@@ -18,7 +18,7 @@ function closeEditor() {
         <p class="modal-card-title">Edit Grounding Source</p>
       </header>
       <section class="modal-card-body">
-        <div class="content source-content" contenteditable v-html="groundingSource"></div>
+        <div class="content source-content" contenteditable v-html="contextContent"></div>
       </section>
       <footer class="modal-card-foot">
         <button class="button" @click="closeEditor">Close</button>
