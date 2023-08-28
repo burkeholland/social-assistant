@@ -6,8 +6,13 @@ const database = client.database('SocialAssistant')
 const container = database.container('Prompts')
 
 const prompsService = {
-  async getPrompts() {
-    const { resources } = await container.items.readAll().fetchAll()
+  async getPrompts(userId) {
+
+    // Get all prompts from the database where the userid matches the one passed in or there is no userId field at all
+    const { resources } = await container.items
+      .query(`SELECT * from c WHERE c.userId = "${userId}" OR NOT IS_DEFINED(c.userId)`)
+      .fetchAll()
+
     return resources
   },
   async getPrompt(id) {

@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia'
 import promptService from '@/services/promptService'
 
 const store = useAppStore()
-const { showPromptEditor, promptToSave } = storeToRefs(store)
+const { showPromptEditor, promptToSave, userId } = storeToRefs(store)
 
 const modalErrorMessage = ref('')
 
@@ -29,7 +29,7 @@ async function savePrompt(e) {
 
 
       store.showPromptEditor = false
-      store.prompts = await promptService.getPrompts()
+      store.prompts = await promptService.getPrompts(userId.value)
     }
   } catch (error) {
     store.errorMessage = error.content

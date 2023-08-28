@@ -18,10 +18,10 @@ onMounted(() => {
 async function getPrompts() {
   try {
     // get all prompts from db
-    store.prompts = await promptService.getPrompts()
+    store.prompts = await promptService.getPrompts(userId.value)
 
     // get the distinct categories from the prompts result
-    categories.value = [ ...new Set(prompts.value.map((prompt) => prompt.category)) ]
+    categories.value = [...new Set(prompts.value.map((prompt) => prompt.category))]
   } catch (error) {
     store.errorMessage = error.content
   }
@@ -36,7 +36,7 @@ const filteredPrompts = computed(() => {
     return prompts.value
   }
 
-  return store.prompts.filter((prompt) => prompt[ filterBy.value ] === filterVal.value)
+  return store.prompts.filter((prompt) => prompt[filterBy.value] === filterVal.value)
 })
 
 async function deletePrompt(id) {

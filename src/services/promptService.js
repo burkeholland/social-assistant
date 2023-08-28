@@ -1,8 +1,8 @@
 import fetchUtil from '../utils/fetchUtil'
 
 export default {
-  async getPrompts() {
-    const result = await fetchUtil.get('/api/prompts')
+  async getPrompts(userId) {
+    const result = await fetchUtil.get(`/api/prompts/${userId}`)
     return result.body
   },
   async getPrompt(id) { },

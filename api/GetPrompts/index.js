@@ -4,9 +4,12 @@ const promptsService = require('../services/promptsService')
 module.exports = async function (context, req) {
   const clientPrincipal = authService.isUserAuthorized(req)
   if (clientPrincipal) {
+
+    const { userId } = req.params
+
     try {
-      // get all the prompts from the database
-      const resources = await promptsService.getPrompts()
+      // get the prompts from the promptsService
+      const resources = await promptsService.getPrompts(userId)
 
       // return the prompts to the client
       context.res = {

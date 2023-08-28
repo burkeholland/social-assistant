@@ -5,8 +5,10 @@
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "methods": ["get"],
-      "route": "prompts"
+      "methods": [
+        "get"
+      ],
+      "route": "prompts/{userId}"
     },
     {
       "type": "http",
