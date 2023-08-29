@@ -11,7 +11,6 @@ function setSource(e) {
 
 function closeEditor() {
   store.showEditor = false
-  console.log(groundingSource.value)
 }
 </script>
 
