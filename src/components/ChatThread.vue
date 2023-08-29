@@ -28,13 +28,13 @@ async function getCompletion() {
     return
   }
 
-  console.log(userMessage.value)
-
   isWaitingForCompletion.value = true
 
-  store.messages.push({ id: uid(), role: 'user', content: userMessage.value })
+  const escapedMessage = escapeHTMLChars(userMessage.value)
 
-  const savedUserMessage = userMessage.value
+  store.messages.push({ id: uid(), role: 'user', content: escapedMessage })
+
+  const savedUserMessage = escapedMessage
   store.userMessage = ''
 
   try {
@@ -69,6 +69,10 @@ async function getCompletion() {
     // restore the last user message
     store.userMessage = savedUserMessage
   }
+}
+
+function escapeHTMLChars(message) {
+  return message.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 }
 
 function clearChat() {

@@ -27,9 +27,8 @@ defineProps({
     </div>
     <div class="columns is-vcentered">
       <div class="column">
-        <textarea placeholder="Type your message here..." @keydown.enter.exact.prevent="getCompletion"
-          @keydown.enter.shift.exact.prevent="userMessage += '\n'" v-model="userMessage">
-        </textarea>
+        <textarea placeholder="Type your message here..." v-model="userMessage"
+          @keydown.enter.exact.prevent="getCompletion"></textarea>
       </div>
       <div class="column is-narrow mr-5">
         <button class="button is-primary is-block mb-2" :disabled="!userMessage" @click="getCompletion">
