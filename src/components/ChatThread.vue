@@ -28,6 +28,8 @@ async function getCompletion() {
     return
   }
 
+  console.log(userMessage.value)
+
   isWaitingForCompletion.value = true
 
   store.messages.push({ id: uid(), role: 'user', content: userMessage.value })
