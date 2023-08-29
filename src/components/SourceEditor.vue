@@ -5,8 +5,13 @@ import { storeToRefs } from 'pinia'
 const store = useAppStore()
 const { groundingSource, showEditor } = storeToRefs(store)
 
+function setSource(e) {
+  store.groundingSource = e.target.innerHTML
+}
+
 function closeEditor() {
   store.showEditor = false
+  console.log(groundingSource.value)
 }
 </script>
 
@@ -18,7 +23,7 @@ function closeEditor() {
         <p class="modal-card-title">Edit Grounding Source</p>
       </header>
       <section class="modal-card-body">
-        <div class="content source-content" contenteditable v-html="groundingSource"></div>
+        <div class="content source-content" contenteditable @blur="(e) => setSource(e)" v-html="groundingSource"></div>
       </section>
       <footer class="modal-card-foot">
         <button class="button" @click="closeEditor">Close</button>
