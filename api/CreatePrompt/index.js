@@ -8,7 +8,7 @@ module.exports = async function (context, req) {
       return unauthorizedResponse(context)
     }
 
-    const { title, category, text } = req.body
+    const { title, category, text, isPublic } = req.body
 
     const promptItem = await promptsService.getPromptByTitle(title)
 
@@ -24,6 +24,7 @@ module.exports = async function (context, req) {
       title,
       category,
       text,
+      isPublic,
       clientPrincipal.userId
     )
 

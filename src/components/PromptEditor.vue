@@ -19,7 +19,8 @@ async function savePrompt(e) {
         promptToSave.value.id ?? null,
         promptToSave.value.title,
         promptToSave.value.category,
-        promptToSave.value.text
+        promptToSave.value.text,
+        promptToSave.value.isPublic
       )
 
       if (result.status === 409) {
@@ -81,6 +82,13 @@ function closeModal(e) {
         </div>
         <div class="control">
           <textarea v-model="promptToSave.text" class="block" required></textarea>
+          <div class="field">
+            <!-- a checkbox for making the prompt public -->
+            <label class="checkbox">
+              <input type="checkbox" :checked="promptToSave.isPublic" v-model="promptToSave.isPublic" />
+              Make this prompt public
+            </label>
+          </div>
           <div class="has-text-right">
             <button class="button mr-2" @click="closeModal">Close</button>
             <button class="button is-primary" @click="savePrompt">Save</button>

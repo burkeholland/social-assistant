@@ -9,7 +9,7 @@ module.exports = async function (context, req) {
     }
 
     const { id } = req.params
-    const { title, category, text } = req.body
+    const { title, category, text, isPublic } = req.body
 
 
     // first, see if the item exists in the database already
@@ -25,11 +25,12 @@ module.exports = async function (context, req) {
       title,
       category,
       text,
+      isPublic,
       clientPrincipal.userId
     )
 
     context.res = {
-    // status: 200, /* Defaults to 200 */
+      // status: 200, /* Defaults to 200 */
       body: resource
     }
   } catch (error) {

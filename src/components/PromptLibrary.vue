@@ -45,8 +45,8 @@ async function deletePrompt(id) {
 }
 
 function updatePrompt(prompt) {
-  const { id, title, category, text } = prompt
-  store.initPromptState(id, title, category, text)
+  const { id, title, category, text, isPublic } = prompt
+  store.initPromptState(id, title, category, text, isPublic)
   store.showPromptEditor = true
 }
 
