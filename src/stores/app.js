@@ -19,13 +19,14 @@ export const useAppStore = defineStore('app', {
         id: '',
         title: '',
         category: '',
-        text: ''
+        text: '',
+        isPublic: false
       }
     }
   },
   actions: {
-    initPromptState(id, title, category, text) {
-      this.promptToSave = { id, title, category, text }
+    initPromptState(id, title, category, text, isPublic) {
+      this.promptToSave = { id, title, category, text, isPublic }
     },
     setErrorMessage(message) {
       this.errorMessage = message

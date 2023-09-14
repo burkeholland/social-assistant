@@ -6,28 +6,30 @@ export default {
     return result.body
   },
   async getPrompt(id) { },
-  async savePrompt(id, title, category, text) {
+  async savePrompt(id, title, category, text, isPublic) {
     let result = {}
     if (id) {
-      result = await this.updatePrompt(id, title, category, text)
+      result = await this.updatePrompt(id, title, category, text, isPublic)
     } else {
-      result = await this.createPrompt(title, category, text)
+      result = await this.createPrompt(title, category, text, isPublic)
     }
     return result
   },
-  async updatePrompt(id, title, category, text) {
+  async updatePrompt(id, title, category, text, isPublic) {
     const result = await fetchUtil.put(`/api/prompts/${id}`, {
       title,
       category,
-      text
+      text,
+      isPublic
     })
     return result
   },
-  async createPrompt(title, category, text) {
+  async createPrompt(title, category, text, isPublic) {
     const result = await fetchUtil.post('/api/prompts', {
       title,
       category,
-      text
+      text,
+      isPublic
     })
     return result
   },
