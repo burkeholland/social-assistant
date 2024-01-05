@@ -1,7 +1,5 @@
 # Advocacy AI Assistant
 
-**This is not the Advocacy AI Tools repo. It is just an experiment.** Go to https://github.com/burkeholland/advocacy-ai-tools for the app deployed at aka.ms/advocacy-ai-tools.
-
 ## Project Setup
 
 ```sh
