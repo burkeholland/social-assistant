@@ -23,14 +23,14 @@ module.exports = async function (context, req) {
       messages.unshift(systemPrompt)
 
       const response = await fetch(
-        process.env.AZURE_OPENAI_ENDPOINT,
+        process.env.OPENAI_ENDPOINT,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'api-key': process.env.AZURE_OPENAI_KEY
+            'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
           },
-          body: JSON.stringify({ messages: messages, temperature: temperature })
+          body: JSON.stringify({ model: process.env.OPENAI_MODEL, messages: messages, temperature: temperature })
         }
       )
 
