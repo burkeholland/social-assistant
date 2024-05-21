@@ -2,7 +2,7 @@ const cosmos = require('@azure/cosmos')
 
 const { CosmosClient } = cosmos
 const client = new CosmosClient(process.env.COSMOSDB_CONNECTION_STRING)
-const database = client.database('SocialAssistant')
+const database = client.database('social-assistant')
 const container = database.container('Prompts')
 
 const prompsService = {
