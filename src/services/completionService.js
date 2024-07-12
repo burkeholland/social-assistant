@@ -1,5 +1,5 @@
 export default {
-  async getCompletion(messages, groundingSource, temperature) {
+  async getCompletion(messages, groundingSource, temperature, burkeMode) {
     // create an array that contains only the role and content properties of each message
     const completionMessages = messages.map((message) => {
       return {
@@ -16,7 +16,8 @@ export default {
       body: JSON.stringify({
         groundingSource: groundingSource,
         messages: completionMessages,
-        temperature: temperature
+        temperature: temperature,
+        burkeMode: burkeMode
       })
     })
 

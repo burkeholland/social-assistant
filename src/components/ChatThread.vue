@@ -41,7 +41,8 @@ async function getCompletion() {
     let completion = await completionService.getCompletion(
       messages.value,
       groundingSource.value,
-      temperature.value
+      temperature.value,
+      false
     )
 
     if (completion.status !== 200) {
