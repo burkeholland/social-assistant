@@ -14,7 +14,7 @@ store.$subscribe((mutation, state) => {
   localStorage.setItem('appState', JSON.stringify(state))
 })
 
-// hydrage the state from localStorage
+// hydrate the state from localStorage
 store.hydrateState(JSON.parse(localStorage.getItem('appState')))
 </script>
 
