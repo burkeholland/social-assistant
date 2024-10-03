@@ -20,6 +20,15 @@ const authService = {
     } catch {
       return null
     }
+  },
+
+  // get the users domain
+  getUserDomain(req) {
+    const clientPrincipal = this.isUserAuthorized(req)
+    if (clientPrincipal) {
+      return clientPrincipal.userDetails.split('@').pop()
+    }
+    return null
   }
 }
 
