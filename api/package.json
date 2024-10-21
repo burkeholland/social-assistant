@@ -8,11 +8,14 @@
   },
   "dependencies": {
     "@azure/cosmos": "^3.17.3",
+    "@mozilla/readability": "^0.4.4",
     "gpt-3-encoder": "^1.1.4",
+    "jsdom": "^22.1.0",
     "marked": "^5.1.2",
     "node-fetch": "^3.3.2",
-    "youtube-caption-extractor": "^1.4.3",
-    "jsdom": "^22.1.0",
-    "@mozilla/readability": "^0.4.4"
+    "youtube-caption-extractor": "^1.4.3"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }

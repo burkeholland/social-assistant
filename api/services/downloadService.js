@@ -1,6 +1,7 @@
 var { Readability } = require('@mozilla/readability')
 var { JSDOM } = require('jsdom')
 const { getSubtitles } = require('youtube-caption-extractor')
+const { google } = require('googleapis');
 
 const downloadService = {
   downloadWebPageText: async (url) => {
@@ -24,29 +25,29 @@ const downloadService = {
 
   downloadYouTubeCaptions: async (url) => {
     try {
-      const videoId = extractVideoId(url)
+      const videoId = extractVideoId(url);
 
       const videoCaptions = await getSubtitles({
         videoID: videoId,
         lang: 'en'
-      })
+      });
 
-      let formattedCaptions = ''
+      const comments = await downloadYouTubeComments(videoId);
 
+      let formattedContent = 'Captions:\n';
       videoCaptions.forEach((caption) => {
-        // round the seconds to the nearest second
-        caption.start = Math.round(caption.start)
+        const formattedTime = formatTime(Math.round(caption.start));
+        formattedContent += `Timestamp: ${formattedTime}, Caption: ${caption.text}\n\n`;
+      });
 
-        const formattedTime = formatTime(caption.start)
-        formattedCaptions += `Timestamp: ${formattedTime}, Caption: ${caption.text}\n\n`
-      })
+      formattedContent += '\nComments:\n' + comments;
 
       return {
         status: 200,
-        body: { type: 'captions', content: formattedCaptions }
-      }
+        body: { type: 'captions_and_comments', content: formattedContent }
+      };
     } catch (error) {
-      return { status: 500, body: error.message }
+      return { status: 500, body: error.message };
     }
   },
 
@@ -89,15 +90,15 @@ function getGitHubReleaseTitle(dom) {
 
 function getRelatedGitHubIssuesUrls(dom) {
   const releaseBodyElement = dom.window.document.querySelector('#repo-content-turbo-frame [data-test-selector="body-content"]');
-    const links = releaseBodyElement.querySelectorAll('a.issue-link');
-    const linkedIssuesUrls = [];
-    links.forEach(link => {
-        const href = link.getAttribute('href');
-        if (href.indexOf('/issues/') > -1) {
-            linkedIssuesUrls.push(href);
-        }
-    });
-    return linkedIssuesUrls;
+  const links = releaseBodyElement.querySelectorAll('a.issue-link');
+  const linkedIssuesUrls = [];
+  links.forEach(link => {
+    const href = link.getAttribute('href');
+    if (href.indexOf('/issues/') > -1) {
+      linkedIssuesUrls.push(href);
+    }
+  });
+  return linkedIssuesUrls;
 }
 
 async function getRelatedGitHubIssues(issuesUrls) {
@@ -106,7 +107,7 @@ async function getRelatedGitHubIssues(issuesUrls) {
     const html = await response.text()
     const dom = new JSDOM(html);
     const title = dom.window.document.querySelector('#partial-discussion-header .js-issue-title').textContent;
-        const body = dom.window.document.querySelector('.js-comment-body').textContent;
+    const body = dom.window.document.querySelector('.js-comment-body').textContent;
     return {
       title,
       body
@@ -132,6 +133,35 @@ ${issues.map(issue => `
 </html>
   `;
   return html;
+}
+
+async function downloadYouTubeComments(videoId) {
+  const youtube = google.youtube({
+    version: 'v3',
+    auth: process.env.YOUTUBE_API_KEY
+  });
+
+  let comments = '';
+  let nextPageToken = null;
+
+  do {
+    const response = await youtube.commentThreads.list({
+      part: 'snippet',
+      videoId: videoId,
+      maxResults: 100,
+      pageToken: nextPageToken,
+      textFormat: 'plainText'
+    });
+
+    response.data.items.forEach((item) => {
+      const comment = item.snippet.topLevelComment.snippet.textDisplay;
+      comments += `${comment}\n\n`;
+    });
+
+    nextPageToken = response.data.nextPageToken;
+  } while (nextPageToken);
+
+  return comments;
 }
 
 module.exports = downloadService
