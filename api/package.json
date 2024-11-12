@@ -15,6 +15,7 @@
     "marked": "^5.1.2",
     "node-fetch": "^3.3.2",
     "youtube-caption-extractor": "^1.4.3",
-    "yt-transcribe": "^1.0.3"
+    "yt-transcribe": "^1.0.3",
+    "@dofy/youtube-caption-fox": "^1.5.1"
   }
 }
