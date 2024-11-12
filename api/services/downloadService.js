@@ -51,7 +51,7 @@ const downloadService = {
 
       return {
         status: 200,
-        body: { type: 'captions', content: formattedCaptions }
+        body: { type: 'captions', content: videoInfo.captions }
       }
     } catch (error) {
       return { status: 500, body: error.message }
