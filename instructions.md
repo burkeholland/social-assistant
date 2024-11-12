@@ -16,20 +16,22 @@
 
 1. When working with the frontend Vue.js code, follow the structure and conventions found in the [`src`](src) directory. Use the existing Vue components as a guide when creating new components.
 
-2. When working with the backend API, follow the structure and conventions found in the [`api`](api) directory. Use the existing Azure Functions as a guide when creating new functions.
+1. When working with the backend API, follow the structure and conventions found in the [`api`](api) directory. Use the existing Azure Functions as a guide when creating new functions.
 
-3. When working with the application state, use the existing Pinia stores as a guide. The state is defined in the [`app.js`](src/stores/app.js) file.
+1. When working with the application state, use the existing Pinia stores as a guide. The state is defined in the [`app.js`](src/stores/app.js) file.
 
-4. When adding new styles, use Bulma classes where possible. Custom styles should be added to the [`src/assets/main.css`](src/assets/main.css) file.
+1. When adding new API endpoints, follow the structure and conventions found in the [`api`](api) directory. Use the existing Azure Functions as a guide when creating new functions.
 
-5. When adding new API endpoints, follow the structure and conventions found in the [`api`](api) directory. Use the existing Azure Functions as a guide when creating new functions.
+1. When modifying or adding to the application state, use the existing Pinia store structure. The state is defined in the [`app.js`](src/stores/app.js) file.
 
-6. When modifying or adding to the application state, use the existing Pinia store structure. The state is defined in the [`app.js`](src/stores/app.js) file.
+1. When adding new prompts or updating existing ones, use the [`savePrompt`](src/services/promptService.js) function in the [`src/services/promptService.js`](src/services/promptService.js) file as a guide.
 
-7. When adding new prompts or updating existing ones, use the [`savePrompt`](src/services/promptService.js) function in the [`src/services/promptService.js`](src/services/promptService.js) file as a guide.
+1. When working with AI completions, use the [`getCompletion`](src/services/completionService.js) function in the [`src/services/completionService.js`](src/services/completionService.js) file as a guide.
 
-8. When working with AI completions, use the [`getCompletion`](src/services/completionService.js) function in the [`src/services/completionService.js`](src/services/completionService.js) file as a guide.
+1. When adding new tests, follow the structure and conventions found in the `tests` directory. Use the existing tests as a guide when creating new tests.
 
-9. When adding new tests, follow the structure and conventions found in the `tests` directory. Use the existing tests as a guide when creating new tests.
+1. When adding new documentation, follow the structure and conventions found in the [`README.md`](README.md) and [`instructions.md`](instructions.md) files. Use these files as a guide when creating new documentation.
 
-10. When adding new documentation, follow the structure and conventions found in the [`README.md`](README.md) and [`instructions.md`](instructions.md) files. Use these files as a guide when creating new documentation.
+1. If I ask you to setup tests, generate an simple test file that contains a single hello world test. this file should have no dependencies and should just check if two strings are equal.
+
+1. If I ask you to create tests, then you can actually create the testing code. Put all files in the "api/__tests__" directory.

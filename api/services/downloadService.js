@@ -1,6 +1,8 @@
 var { Readability } = require('@mozilla/readability')
 var { JSDOM } = require('jsdom')
-const { getSubtitles } = require('youtube-caption-extractor')
+// const { getSubtitles } = require('youtube-caption-extractor')
+// const { google } = require('googleapis');
+// const youtube = google.youtube('v3');
 
 const downloadService = {
   downloadWebPageText: async (url) => {
@@ -25,21 +27,27 @@ const downloadService = {
   downloadYouTubeCaptions: async (url) => {
     try {
       const videoId = extractVideoId(url)
+      // const videoUrl = "https://www.youtube.com/watch?v=" + videoId;
 
-      const videoCaptions = await getSubtitles({
-        videoID: videoId,
-        lang: 'en'
-      })
+      const captionFox = await import('@dofy/youtube-caption-fox');
 
-      let formattedCaptions = ''
+      const videoInfo = await captionFox.getCaptions(videoId);
 
-      videoCaptions.forEach((caption) => {
-        // round the seconds to the nearest second
-        caption.start = Math.round(caption.start)
+      let formattedCaptions = '';
+      videoInfo.captions.forEach((caption) => {
+        const formattedTime = formatTime(caption.start);
+        formattedCaptions += `Timestamp: ${formattedTime}, Caption: ${caption.text}\n\n`;
+      });
 
-        const formattedTime = formatTime(caption.start)
-        formattedCaptions += `Timestamp: ${formattedTime}, Caption: ${caption.text}\n\n`
-      })
+      // let formattedCaptions = ''
+
+      // videoCaptions.forEach((caption) => {
+      //   // round the seconds to the nearest second
+      //   caption.start = Math.round(caption.start)
+
+      //   const formattedTime = formatTime(caption.start)
+      //   formattedCaptions += `Timestamp: ${formattedTime}, Caption: ${caption.text}\n\n`
+      // })
 
       return {
         status: 200,
@@ -89,15 +97,15 @@ function getGitHubReleaseTitle(dom) {
 
 function getRelatedGitHubIssuesUrls(dom) {
   const releaseBodyElement = dom.window.document.querySelector('#repo-content-turbo-frame [data-test-selector="body-content"]');
-    const links = releaseBodyElement.querySelectorAll('a.issue-link');
-    const linkedIssuesUrls = [];
-    links.forEach(link => {
-        const href = link.getAttribute('href');
-        if (href.indexOf('/issues/') > -1) {
-            linkedIssuesUrls.push(href);
-        }
-    });
-    return linkedIssuesUrls;
+  const links = releaseBodyElement.querySelectorAll('a.issue-link');
+  const linkedIssuesUrls = [];
+  links.forEach(link => {
+    const href = link.getAttribute('href');
+    if (href.indexOf('/issues/') > -1) {
+      linkedIssuesUrls.push(href);
+    }
+  });
+  return linkedIssuesUrls;
 }
 
 async function getRelatedGitHubIssues(issuesUrls) {
@@ -106,7 +114,7 @@ async function getRelatedGitHubIssues(issuesUrls) {
     const html = await response.text()
     const dom = new JSDOM(html);
     const title = dom.window.document.querySelector('#partial-discussion-header .js-issue-title').textContent;
-        const body = dom.window.document.querySelector('.js-comment-body').textContent;
+    const body = dom.window.document.querySelector('.js-comment-body').textContent;
     return {
       title,
       body
@@ -133,5 +141,27 @@ ${issues.map(issue => `
   `;
   return html;
 }
+
+// async function getYouTubeComments(videoId) {
+//   try {
+//     const response = await youtube.commentThreads.list({
+//       part: 'snippet',
+//       videoId: videoId,
+//       maxResults: 100,
+//       key: process.env.YOUTUBE_API_KEY
+//     });
+
+//     return response.data.items.map(item => {
+//       const comment = item.snippet.topLevelComment.snippet;
+//       return {
+//         author: comment.authorDisplayName,
+//         text: comment.textDisplay,
+//         publishedAt: comment.publishedAt
+//       };
+//     });
+//   } catch (error) {
+//     throw new Error('Failed to fetch YouTube comments');
+//   }
+// }
 
 module.exports = downloadService

@@ -12,6 +12,7 @@
     "emulate": "concurrently \"npm run dev\" \"swa start http://localhost:5173\""
   },
   "dependencies": {
+    "@dofy/youtube-caption-fox": "^1.5.1",
     "bulma": "^0.9.4",
     "bulma-slider": "^2.0.5",
     "node-fetch": "^3.3.2",
