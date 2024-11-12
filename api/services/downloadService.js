@@ -1,5 +1,6 @@
 var { Readability } = require('@mozilla/readability')
 var { JSDOM } = require('jsdom')
+const { getCaptions } = require('@dofy/youtube-caption-fox');
 // const { getSubtitles } = require('youtube-caption-extractor')
 // const { google } = require('googleapis');
 // const youtube = google.youtube('v3');
@@ -27,11 +28,7 @@ const downloadService = {
   downloadYouTubeCaptions: async (url) => {
     try {
       const videoId = extractVideoId(url)
-      // const videoUrl = "https://www.youtube.com/watch?v=" + videoId;
-
-      const captionFox = await import('@dofy/youtube-caption-fox');
-
-      const videoInfo = await captionFox.getCaptions(videoId);
+      const videoInfo = await getCaptions(videoId);
 
       let formattedCaptions = '';
       videoInfo.captions.forEach((caption) => {
@@ -39,21 +36,12 @@ const downloadService = {
         formattedCaptions += `Timestamp: ${formattedTime}, Caption: ${caption.text}\n\n`;
       });
 
-      // let formattedCaptions = ''
-
-      // videoCaptions.forEach((caption) => {
-      //   // round the seconds to the nearest second
-      //   caption.start = Math.round(caption.start)
-
-      //   const formattedTime = formatTime(caption.start)
-      //   formattedCaptions += `Timestamp: ${formattedTime}, Caption: ${caption.text}\n\n`
-      // })
-
       return {
         status: 200,
         body: JSON.stringify(videoInfo)
       }
     } catch (error) {
+      console.error('Error fetching YouTube captions:', error);
       return { status: 500, body: error.message }
     }
   },
